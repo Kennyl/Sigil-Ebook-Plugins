@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+<name>footnotes-regenerator</name>
+<type>edit</type>
+<author>Nobody</author>
+<description>Footnotes Regenerator for Sigil</description>
+<engine>python2.7</engine>
+<engine>python3.4</engine>
+<version>1.1</version>
+<oslist>osx,unx,win</oslist>
+</plugin>
