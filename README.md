@@ -1,0 +1,2 @@
+# Sigil-Plugins
+Sigil Plugins
