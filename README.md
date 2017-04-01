@@ -3,6 +3,7 @@ Sigil Plugins
 
 - footnotes-regenerator
 - vertical-rtl
+- full-width-digit
 
 zip folder for each plugins
 
