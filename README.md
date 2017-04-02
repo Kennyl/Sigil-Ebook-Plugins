@@ -1,5 +1,5 @@
-# Sigil-Plugins
-Sigil Plugins
+# Sigil-Ebook-Plugins
+Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
 - [footnotes-regenerator](#footnotes-regenerator)
 - [vertical-rtl](#vertical-rtl)
@@ -7,12 +7,11 @@ Sigil Plugins
 
 zip folder for each plugins
 
-for example
+For example making footnotes-regenerator plugin
 
+```
 zip footnotes-regenerator.zip footnotes-regenerator/p*
-
-if you want footnotes-regenerator plugins
-
+```
 
 ## footnotes-regenerator
 
