@@ -3,7 +3,10 @@
 import re
 import sys
 import sigil_bs4
-import sigil_gumbo_bs4_adapter as gumbo_bs4
+
+
+def fixSelfCloseTags(html):
+    return html.replace("></link>","/>").replace("<br></br>","<br/>").replace("></img>","/>")
 
 
 def run(bk):
@@ -12,8 +15,8 @@ def run(bk):
     for (id, href) in bk.text_iter():
         modified = False
         html = bk.readfile(id)
-        html = html.replace("<br/>","")
-        soup = gumbo_bs4.parse(html)
+        # html = html.replace("<br/>","")
+        soup = sigil_bs4.BeautifulSoup(html)
         print("id ", id)
         try:
             modified = 'sigil-t2bv2l' not in soup.body['class'].split()
@@ -30,8 +33,7 @@ def run(bk):
             soup.html['dir'] = 'rtl'
             soup.body['class'] = soup.body['class'] + " sigil-t2bv2l"
             # dunno why sigil cannot have valid close tag
-            html = str(soup).replace(
-                "<br></br>", "<br/>").replace("></link>", "/>")
+            html = fixSelfCloseTags(str(soup))
             print(id)
             bk.writefile(id, html)
 

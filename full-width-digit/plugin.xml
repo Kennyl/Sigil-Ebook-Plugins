@@ -3,7 +3,7 @@
 <name>full-width-digit</name>
 <type>edit</type>
 <author>Nobody</author>
-<description>Layout, "Top 2 Bottom , Right 2 Left" for Sigil</description>
+<description>Change digit to full width</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
 <version>1.0</version>
