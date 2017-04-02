@@ -83,6 +83,7 @@ zip full-width-punctuation.zip full-width-punctuation/plugin.py full-width-punct
 ## vertical-cjk-punctuation
 
 Change － … to ｜ ⋮
+
 Make Plugin for Sigil
 ```
 zip vertical-cjk-punctuation.zip vertical-cjk-punctuation/plugin.py vertical-cjk-punctuation/plugin.xml
