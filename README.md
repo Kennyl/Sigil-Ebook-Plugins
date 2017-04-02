@@ -8,6 +8,7 @@ Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 - [vertical-rtl](#vertical-rtl)
 - [full-width-digit](#full-width-digit)
 - [full-width-punctuation](#full-width-punctuation)
+- [vertical-cjk-punctuation](#vertical-cjk-punctuation)
 
 zip folder for each plugins
 
@@ -76,6 +77,15 @@ Change ";" ":" "," "?" "!" "." to \N{FULLWIDTH PUNCTUATION}
 Make Plugin for Sigil
 ```
 zip full-width-punctuation.zip full-width-punctuation/plugin.py full-width-punctuation/plugin.xml
+```
+<hr/>
+
+## vertical-cjk-punctuation
+
+Change － … to ｜ ⋮
+Make Plugin for Sigil
+```
+zip vertical-cjk-punctuation.zip vertical-cjk-punctuation/plugin.py vertical-cjk-punctuation/plugin.xml
 ```
 <hr/>
 
