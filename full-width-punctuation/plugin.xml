@@ -6,6 +6,6 @@
 <description>Make punctuation from 0.5em to 1em</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>1.0</version>
+<version>1.2</version>
 <oslist>osx,unx,win</oslist>
 </plugin>
