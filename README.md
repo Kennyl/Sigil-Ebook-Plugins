@@ -1,6 +1,6 @@
 # Sigil-Ebook-Plugins
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1f6ee51671344df8b0f1a613243354c1)](https://www.codacy.com/app/Kennyl/Sigil-Ebook-Plugins?utm_source=github.com&utm_medium=referral&utm_content=Kennyl/Sigil-Ebook-Plugins&utm_campaign=badger)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1f6ee51671344df8b0f1a613243354c1)](https://www.codacy.com/app/Kennyl/Sigil-Ebook-Plugins?utm_source=github.com&utm_medium=referral&utm_content=Kennyl/Sigil-Ebook-Plugins&utm_campaign=badger)[![Build Status](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins.svg?branch=master)](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins)
 
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
