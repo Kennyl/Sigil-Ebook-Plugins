@@ -6,7 +6,7 @@ import sigil_bs4
 
 
 def fixSelfCloseTags(html):
-    return html.replace("></link>","/>").replace("<br></br>","<br/>").replace("></img>","/>")
+    return html.replace("></input>"," />").replace("></img>"," />").replace("></meta>"," />").replace("></link>"," />").replace("<br></br>","<br />").replace("></img>"," />")
 
 
 def run(bk):
@@ -15,7 +15,7 @@ def run(bk):
     for (id, href) in bk.text_iter():
         modified = False
         html = bk.readfile(id)
-        # html = html.replace("<br/>","")
+        html = html.replace("<br/>","")
         soup = sigil_bs4.BeautifulSoup(html)
         print("id ", id)
         try:

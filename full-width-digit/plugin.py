@@ -17,7 +17,7 @@ conversionDict={"0": "\N{FULLWIDTH DIGIT ZERO}",
 
 
 def fixSelfCloseTags(html):
-    return html.replace("></link>","/>").replace("<br></br>","<br/>").replace("></img>","/>")
+    return html.replace("></input>"," />").replace("></img>"," />").replace("></meta>"," />").replace("></link>"," />").replace("<br></br>","<br />").replace("></img>"," />")
 
 
 def run(bk):
@@ -26,8 +26,6 @@ def run(bk):
         modified = False
         html = bk.readfile(id)
         soup = sigil_bs4.BeautifulSoup(html)
-        ol = sigil_bs4.Tag(name="ol")
-        ol['class'] = "sigil-footnote-content"
         # br tag  will cause p tag cannot be found
         for elem in soup.findAll(['p','div','span'], text=re.compile('(\d+)')):
             modified = True
