@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+<name>vertical-cjk-punctuation</name>
+<type>edit</type>
+<author>Nobody</author>
+<description>Change CJK punctuation from horizontal to vertical</description>
+<engine>python2.7</engine>
+<engine>python3.4</engine>
+<version>1.2</version>
+<oslist>osx,unx,win</oslist>
+</plugin>
