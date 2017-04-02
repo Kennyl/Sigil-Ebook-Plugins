@@ -4,6 +4,7 @@ Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 - [footnotes-regenerator](#footnotes-regenerator)
 - [vertical-rtl](#vertical-rtl)
 - [full-width-digit](#full-width-digit)
+- [full-width-punctuation](#full-width-punctuation)
 
 zip folder for each plugins
 
@@ -62,6 +63,16 @@ Change [0-9] to \N{FULLWIDTH DIGIT [ZERO-NINE]}
 Make Plugin for Sigil
 ```
 zip full-width-digit.zip full-width-digit/plugin.py full-width-digit/plugin.xml
+```
+<hr/>
+
+## full-width-punctuation
+
+Change ";" ":" "," "?" "!" "." to \N{FULLWIDTH PUNCTUATION} 
+
+Make Plugin for Sigil
+```
+zip full-width-punctuation.zip full-width-punctuation/plugin.py full-width-punctuation/plugin.xml
 ```
 <hr/>
 
