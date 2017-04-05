@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+<name>kobo-footnotes-enhance</name>
+<type>edit</type>
+<author>Nobody</author>
+<description>Footnotes Regenerator for Sigil</description>
+<engine>python3.4</engine>
+<version>20170405</version>
+<oslist>osx,unx,win</oslist>
+</plugin>
