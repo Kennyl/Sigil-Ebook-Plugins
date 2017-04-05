@@ -24,7 +24,7 @@ def run(bk):
         ol = sigil_bs4.Tag(name="ol")
         ol['class'] = "sigil-footnote-content"
         # br tag  will cause p tag cannot be found
-        for elem in soup.findAll(['p','div'], text=re.compile('.+(\[\d+\])')):
+        for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('.+(\[\d+\])')):
             modified = True
             fnid = fnid + 1
             text =  elem.string
@@ -36,9 +36,10 @@ def run(bk):
                 a = sigil_bs4.Tag(name="a")
                 a["class"] = "sigil-footnote"
                 a["epub:type"]= "noteref"
-                a["href"]=str(id)+'#fn'+str(fnid)
+                a["href"]='#fn'+str(fnid)
                 a["id"] = "fnref"+str(fnid)
-                a.string = "["+str(fnid)+"]"
+                # a.string = "["+str(fnid)+"]"
+                a.string = "㊟"
                 elem.append(a)
                 preview = 0
                 if start > 10:
@@ -51,7 +52,7 @@ def run(bk):
                 else:
                     fnid = fnid + 1
 
-        for elem in soup.findAll(['p','div'], text=re.compile('^\[\d+\]')):
+        for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('^\[\d+\]')):
             modified = True
             fnid1 = fnid1 + 1
             print("\n", id, href, '', str(fnid1), ':', elem.string)
