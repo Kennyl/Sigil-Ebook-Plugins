@@ -5,10 +5,11 @@
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
 - [footnotes-regenerator](#footnotes-regenerator)
-- [vertical-rtl](#vertical-rtl)
 - [full-width-digit](#full-width-digit)
 - [full-width-punctuation](#full-width-punctuation)
+- [kobo-footnotes-enhance](#kobo-footnotes-enhance)
 - [vertical-cjk-punctuation](#vertical-cjk-punctuation)
+- [vertical-rtl](#vertical-rtl)
 
 zip folder for each plugins
 
@@ -50,16 +51,6 @@ zip footnotes-regenerator.zip footnotes-regenerator/plugin.py footnotes-regenera
 ```
 <hr/>
 
-## vertical-rtl
-
-Change horizontal to vertical passage ( top to bottom and right to left)
-
-Make Plugin for Sigil
-```
-zip vertical-rtl.zip vertical-rtl/plugin.py vertical-rtl/plugin.xml
-```
-<hr/>
-
 ## full-width-digit
 
 Change [0-9] to \N{FULLWIDTH DIGIT [ZERO-NINE]} 
@@ -80,16 +71,6 @@ zip full-width-punctuation.zip full-width-punctuation/plugin.py full-width-punct
 ```
 <hr/>
 
-## vertical-cjk-punctuation
-
-Change － … to ｜ ⋮
-
-Make Plugin for Sigil
-```
-zip vertical-cjk-punctuation.zip vertical-cjk-punctuation/plugin.py vertical-cjk-punctuation/plugin.xml
-```
-<hr/>
-
 ## kobo-footnotes-enhance
 
 This plugin will link (校記1）<-> section ■校記 of 1
@@ -102,4 +83,25 @@ Make Plugin for Sigil
 zip kobo-footnotes-enhance.zip kobo-footnotes-enhance/plugin.py kobo-footnotes-enhance/plugin.xml
 ```
 <hr/>
+
+## vertical-cjk-punctuation
+
+Change － … to ｜ ⋮
+
+Make Plugin for Sigil
+```
+zip vertical-cjk-punctuation.zip vertical-cjk-punctuation/plugin.py vertical-cjk-punctuation/plugin.xml
+```
+<hr/>
+
+## vertical-rtl
+
+Change horizontal to vertical passage ( top to bottom and right to left)
+
+Make Plugin for Sigil
+```
+zip vertical-rtl.zip vertical-rtl/plugin.py vertical-rtl/plugin.xml
+```
+<hr/>
+
 No License, No Warranty, No Bullshit
