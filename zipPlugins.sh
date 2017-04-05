@@ -2,7 +2,7 @@
 
 ymd=$(date +%Y%m%d)
 
-find . -name "plugin.xml" -exec sed -i "s/^<version>.*$/<version>${ymd}<\/version>/"  {} \;
+find . -name "plugin.xml" -print -exec sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/"  {} \;
 
 # * because we ignore .git those hidden folder
-find * -type d -exec zip -r {}_v${ymd}.zip {} \;
+find . -not -name ".*" -type d  -maxdepth 1 -print -exec zip -r {}_v${ymd}.zip {} \;
