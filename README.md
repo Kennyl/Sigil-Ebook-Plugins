@@ -90,4 +90,16 @@ zip vertical-cjk-punctuation.zip vertical-cjk-punctuation/plugin.py vertical-cjk
 ```
 <hr/>
 
+## kobo-footnotes-enhance
+
+This plugin will link (校記1）<-> section ■校記 of 1
+and （注釋2）<-> section ■注釋 of 2
+
+Adpative for modification in source code.
+
+Make Plugin for Sigil
+```
+zip kobo-footnotes-enhance.zip kobo-footnotes-enhance/plugin.py kobo-footnotes-enhance/plugin.xml
+```
+<hr/>
 No License, No Warranty, No Bullshit
