@@ -25,6 +25,7 @@ def run(bk):
             continue
         content = bk.readfile(id)
         doc = html.fromstring(content.encode('utf-8'))
+        doc.attrib['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
         pathsearch = "//*[local-name()='p' or local-name()='div' or local-name()='span']"
         elements = doc.xpath(pathsearch)
         for e in elements:
@@ -46,16 +47,42 @@ def run(bk):
             if step == 2:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote" href="#fxref\1"  id="fx\1">\1</a>',innerText)
+                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item" href="#fxref\1"  id="fx\1">\1</a>',innerText)
                     # print("校記", innerText)
                     e.getparent().replace(e, etree.XML("<"+e.tag+">"+innerText+"</"+e.tag+">"))
             if step == 3:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote" href="#fnref\1"  id="fn\1">\1</a>',innerText)
+                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item" href="#fnref\1"  id="fn\1">\1</a>',innerText)
                     # print("注釋 ", innerText)
                     e.getparent().replace(e, etree.XML("<"+e.tag+">"+innerText+"</"+e.tag+">"))
         if modified:
+            head = doc.xpath("//*[local-name() = 'head']")[0]
+            style = etree.Element("style")
+            style.text = '''
+a.duokan-footnote-item{
+text-decoration: none;
+background: black;
+color: white;
+border-radius: 75%;
+-moz-border-radius: 75%;
+-webkit-border-radius: 75%;
+}
+
+a.duokan-footnote {
+line-height: 1;
+vertical-align: super;
+text-decoration: none;
+height: auto;
+border: 0;
+background: black;
+color: white;
+border-radius: 75%;
+-moz-border-radius: 75%;
+-webkit-border-radius: 75%;
+}
+'''
+            head.append(style)
             bk.writefile(id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
     return 0
 
