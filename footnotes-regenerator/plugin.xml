@@ -6,6 +6,6 @@
 <description>Footnotes Regenerator for Sigil</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>20170405</version>
+<version>20170406</version>
 <oslist>osx,unx,win</oslist>
 </plugin>
