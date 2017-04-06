@@ -35,3 +35,7 @@ ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
 sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
 zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
 
+plugin_name="test-plugin"
+ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
+sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
+zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*

@@ -91,3 +91,6 @@ ENV/
 #binary zip
 *.zip
 *.pyc
+
+#custom test plugin
+test-plugin/
