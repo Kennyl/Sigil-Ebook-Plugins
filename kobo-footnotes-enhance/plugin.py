@@ -38,8 +38,8 @@ def run(bk):
                 step = 3
             if step == 1:
                 original = innerText
-                innerText = re.sub(r'([^>])（校記(\d+)）',r'\1<a class="duokan-footnote" href="#fx\2"  id="fxref\2">（校記\2）</a>',innerText)
-                innerText = re.sub(r'([^>])（注釋(\d+)）',r'\1<a class="duokan-footnote" href="#fn\2"  id="fnref\2">（注釋\2）</a>',innerText)
+                innerText = re.sub(r'（校記(\d+)）',r'<a class="duokan-footnote footnote2" href="#fx\1"  id="fxref\1">\1</a>',innerText)
+                innerText = re.sub(r'（注釋(\d+)）',r'<a class="duokan-footnote footnote1" href="#fn\1"  id="fnref\1">\1</a>',innerText)
                 if original  != innerText:
                     modified = True
                     # print(innerText)
@@ -47,19 +47,29 @@ def run(bk):
             if step == 2:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item" href="#fxref\1"  id="fx\1">\1</a>',innerText)
+                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item footnote-item2" href="#fxref\1"  id="fx\1">\1</a>',innerText)
                     # print("校記", innerText)
                     e.getparent().replace(e, etree.XML("<"+e.tag+">"+innerText+"</"+e.tag+">"))
             if step == 3:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item" href="#fnref\1"  id="fn\1">\1</a>',innerText)
+                    innerText = re.sub(r'^(\d+)',r'<a class="duokan-footnote-item footnote-item1" href="#fnref\1"  id="fn\1">\1</a>',innerText)
                     # print("注釋 ", innerText)
                     e.getparent().replace(e, etree.XML("<"+e.tag+">"+innerText+"</"+e.tag+">"))
+        for a in doc.xpath("//*[contains(@class, 'duokan-footnote footnote1')]"):
+            a.attrib['epub:type']= "noteref"
+        for a in doc.xpath("//*[contains(@class, 'duokan-footnote-item footnote-item1')]"):
+            a.getparent().attrib['epub:type']= "footnote"
         if modified:
             head = doc.xpath("//*[local-name() = 'head']")[0]
-            style = etree.Element("style")
-            style.text = '''
+            link = etree.Element("link")
+            link.attrib['href'] = "../Styles/kobo-enhance-footnote.css"
+            link.attrib['rel'] = "stylesheet"
+            link.attrib['type'] = "text/css"
+            head.append(link)
+            bk.writefile(id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
+
+    cssdata = '''
 a.duokan-footnote-item{
 text-decoration: none;
 background: black;
@@ -73,6 +83,7 @@ a.duokan-footnote {
 line-height: 1;
 vertical-align: super;
 text-decoration: none;
+font-size: 0.5em;
 height: auto;
 border: 0;
 background: black;
@@ -81,9 +92,36 @@ border-radius: 75%;
 -moz-border-radius: 75%;
 -webkit-border-radius: 75%;
 }
+a.footnote1::before{
+content: "(";
+}
+a.footnote1::after{
+content: ")";
+}
+a.footnote2::before{
+content: "(校";
+}
+a.footnote2::after{
+content: ")";
+}
+
+a.footnote-item1::before{
+content: "(";
+}
+a.footnote-item1::after{
+content: ")";
+}
+a.footnote-item2::before{
+content: "(";
+}
+a.footnote-item2::after{
+content: ")";
+}
 '''
-            head.append(style)
-            bk.writefile(id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
+    cssfilename = "kobo-enhance-footnote.css"
+    uid = "koboenhancefootnotecss"
+    mime = "text/css"
+    bk.addfile(uid, cssfilename, cssdata, mime)
     return 0
 
 

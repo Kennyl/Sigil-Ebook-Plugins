@@ -6,6 +6,6 @@
 <description>Change CJK punctuation from horizontal to vertical</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>1.2</version>
+<version>20170402</version>
 <oslist>osx,unx,win</oslist>
 </plugin>
