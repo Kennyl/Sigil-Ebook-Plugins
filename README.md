@@ -27,10 +27,7 @@ Inspire from epub forum user
 
 Reorder footnote number push footnote to end of chapter file.
 
-Using [number] as magic tag and translated to Ideograph
-```
-㊟ CIRCLED IDEOGRAPH ATTENTION
-```
+Using [number] as magic tag
 
 ```
 <p>HTML[1]</p>
@@ -41,11 +38,11 @@ Using [number] as magic tag and translated to Ideograph
 ```
 will be regenerated within chapter.
 ```
-<p>HTML<a epub:type="noteref">㊟</a></p>
-<div>PY<a epub:type="noteref">㊟</a><div>
+<p>HTML<a epub:type="noteref">注</a></p>
+<div>PY<a epub:type="noteref">注</a><div>
 
-<aside epub:type="footnote"><div>㊠： HyperTextMarkupLanuage</div></aside>
-<aside epub:type="footnote"><p>㊠： Python</p></aside>
+<aside epub:type="footnote"><div>原文： HyperTextMarkupLanuage</div></aside>
+<aside epub:type="footnote"><p>原文： Python</p></aside>
 ```
 
 if set in plugins ```useNumberOrderingInsteadOfIdeograph = true```
