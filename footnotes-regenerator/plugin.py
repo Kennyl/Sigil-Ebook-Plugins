@@ -40,7 +40,7 @@ def runLXML(bk):
                                        '">['+str(fnid)+']</a>',innerText,1)
                 else:
                     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
-                                       '">㊟</a>',innerText,1)
+                                       '">注</a>',innerText,1)
                 found_noteref = re.search(r'([^>])\[\d+\]',innerText)
 
             if elem.text != innerText:
