@@ -30,8 +30,7 @@ def run(bk):
             link['rel'] = "stylesheet"
             link['type'] = "text/css"
             soup.html.head.append(link)
-            soup.html['dir'] = 'rtl'
-            soup.body['class'] = soup.body['class'] + " sigil-t2bv2l"
+            # soup.body['class'] = soup.body['class'] + " sigil-t2bv2l"
             # dunno why sigil cannot have valid close tag
             html = fixSelfCloseTags(str(soup))
             print(id)
@@ -39,12 +38,22 @@ def run(bk):
 
 # css
         if count > 0:
-            cssdata = '''.sigil-t2bv2l{
-    direction: ltr;
+            cssdata = '''
+html{
+    direction:rtl;
+}
+body {
+    direction:ltr;
+    line-break: normal;
+    -epub-line-break: normal;
+    -webkit-line-break: normal;
+    writing-mode: tb-rl;
     -epub-writing-mode: vertical-rl;
-    webkit-writing-mode: vertical-rl;
-    riting-mode: tb-rl;
-    ms-writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: vertical-rl;
+    text-orientation: mixed;
+    -webkit-text-orientation: mixed;
+    -epub-text-orientation: mixed;
 }'''
             basename = "t2bv2l.css"
             uid = "t2bv2lcss"
