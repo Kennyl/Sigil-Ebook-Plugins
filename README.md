@@ -38,14 +38,14 @@ Using [number] as magic tag
 ```
 will be regenerated within chapter.
 ```
-<p>HTML<a epub:type="noteref">注</a></p>
-<div>PY<a epub:type="noteref">注</a><div>
+<p>HTML<a epub:type="noteref">[1]</a></p>
+<div>PY<a epub:type="noteref">[2]</a><div>
 
-<aside epub:type="footnote"><div>原文： HyperTextMarkupLanuage</div></aside>
-<aside epub:type="footnote"><p>原文： Python</p></aside>
+<aside epub:type="footnote"><div>[1] HyperTextMarkupLanuage</div></aside>
+<aside epub:type="footnote"><p>[2] Python</p></aside>
 ```
 
-if set in plugins ```useNumberOrderingInsteadOfIdeograph = true```
+if set in plugins ```useNumberOrderingInsteadOfIdeograph = False```
 
 ```
 <p>HTML[1]</p>
@@ -56,13 +56,45 @@ if set in plugins ```useNumberOrderingInsteadOfIdeograph = true```
 ```
 will be regenerated within chapter.
 ```
-<p>HTML<a epub:type="noteref">[1]</a></p>
-<div>PY<a epub:type="noteref">[2]</a><div>
+<p>HTML<a epub:type="noteref">注</a></p>
+<div>PY<a epub:type="noteref">注</a><div>
 
-<aside epub:type="footnote"><div>[1] HyperTextMarkupLanuage</div></aside>
-<aside epub:type="footnote"><p>[2] Python</p></aside>
+<aside epub:type="footnote"><div>釋： HyperTextMarkupLanuage</div></aside>
+<aside epub:type="footnote"><p>釋： Python</p></aside>
 ```
 
+However for more complex style, you can edit ```footnote.css``` 
+
+For footnote reference's style
+
+```
+body{
+    counter-reset:footref-index;
+}
+a.duokan-footnote::before{
+}
+a.duokan-footnote{
+}
+a.duokan-footnote::after{
+}
+```
+
+For footnote's style
+
+```
+.duokan-footnote-content{
+    counter-reset:footnote-index;
+}
+.duokan-footnote-item a::before{
+  ...
+}
+.duokan-footnote-item a{
+  ...
+}
+.duokan-footnote-item a::after{}
+  ...
+}
+```
 
 No License since the origin's source and idea are unknown.
 
