@@ -2,43 +2,34 @@
 #-*- coding: utf-8 -*-
 import re
 import sys
-import sigil_bs4
-
-
-def fixSelfCloseTags(html):
-    return html.replace("></input>"," />").replace("></img>"," />").replace("></meta>"," />").replace("></link>"," />").replace("<br></br>","<br />").replace("></img>"," />")
+from lxml import etree, html
 
 
 def run(bk):
     count = 0
     print('start')
     for (id, href) in bk.text_iter():
-        modified = False
-        html = bk.readfile(id)
-        html = html.replace("<br/>","")
-        soup = sigil_bs4.BeautifulSoup(html)
-        print("id ", id)
-        try:
-            modified = 'sigil-t2bv2l' not in soup.body['class'].split()
-        except KeyError:
-            soup.body['class'] = ""
-            modified = True
+        modified = True
+        html_original = bk.readfile(id)
+        doc = html.fromstring(html_original.encode("utf-8"))
+        for link in doc.xpath("//*[local-name() = 'link']"):
+            if link['href'] == "../Styles/t2bv2l.css":
+                modified= False
+                break
+
         if modified:
-            count = 1
-            link = sigil_bs4.Tag(name="link")
-            link['href'] = "../Styles/t2bv2l.css"
-            link['rel'] = "stylesheet"
-            link['type'] = "text/css"
-            soup.html.head.append(link)
-            # soup.body['class'] = soup.body['class'] + " sigil-t2bv2l"
-            # dunno why sigil cannot have valid close tag
-            html = fixSelfCloseTags(str(soup))
-            print(id)
-            bk.writefile(id, html)
+            count += 1
+            head = doc.xpath("//*[local-name() = 'head']")[0]
+            link = etree.SubElement(head, "link", attrib={'href': "../Styles/t2bv2l.css",
+                                                          'rel': "stylesheet",
+                                                          'type': "text/css"
+                                                         })
+            print("Modified File : ", id)
+            bk.writefile(id, etree.tostring(doc, encoding="utf-8", xml_declaration=True).decode('utf8'))
 
 # css
-        if count > 0:
-            cssdata = '''
+    if count > 0:
+        cssdata = '''
 html{
     direction:rtl;
 }
@@ -55,10 +46,10 @@ body {
     -webkit-text-orientation: mixed;
     -epub-text-orientation: mixed;
 }'''
-            basename = "t2bv2l.css"
-            uid = "t2bv2lcss"
-            mime = "text/css"
-            bk.addfile(uid, basename, cssdata, mime)
+        basename = "t2bv2l.css"
+        uid = "t2bv2lcss"
+        mime = "text/css"
+        bk.addfile(uid, basename, cssdata, mime)
     print('end')
     return 0
 
