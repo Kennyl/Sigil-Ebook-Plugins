@@ -4,38 +4,20 @@
 #find . -name "plugin.xml" -print -exec sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/"  {} \;
 ## * because we ignore .git those hidden folder
 #find . -not -name ".*" -type d  -maxdepth 1 -print -exec zip -r {}_v${ymd}.zip {} \;
+plugins=( \
+"footnotes-regenerator" \
+"full-width-digit" \
+"full-width-punctuation" \
+"kobo-footnotes-enhance" \
+"vertical-cjk-punctuation" \
+"vertical-rtl" \
+"test-plugin" \
+)
 
-plugin_name="footnotes-regenerator"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="full-width-digit"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="full-width-punctuation"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="kobo-footnotes-enhance"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="vertical-cjk-punctuation"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="vertical-rtl"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
-
-plugin_name="test-plugin"
-ymd=$(date -r ./${plugin_name}/plugin.py +%Y%m%d)
-sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ./${plugin_name}/plugin.xml
-zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
+for plugin_name in ${plugins[@]}
+do
+  ymd=$(date -r ${plugin_name}/plugin.py +%Y%m%d)
+  # rm ${plugin_name}_v*.zip
+  sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ${plugin_name}/plugin.xml
+  zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
+done
