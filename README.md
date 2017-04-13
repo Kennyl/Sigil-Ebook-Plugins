@@ -27,7 +27,7 @@ Inspire from epub forum user
 
 Reorder footnote number push footnote to end of chapter file.
 
-Using [^number] as magic tag (Markdown Extra style)
+Using ```[^number]``` , ```[^number]:``` pairs as magic tag (Markdown Extra style)
 
 ```
 <p>HTML[^1]</p>
@@ -85,13 +85,19 @@ For footnote's style
 .duokan-footnote-content{
     counter-reset:footnote-index;
 }
-.duokan-footnote-item a::before{
+.duokan-footnote-item a:first-of-type::before{
   ...
 }
-.duokan-footnote-item a{
+.duokan-footnote-item a:first-of-type{
   ...
 }
-.duokan-footnote-item a::after{}
+.duokan-footnote-item a:first-of-type::after{}
+  ...
+}
+.duokan-footnote-item a:last-of-type::before{
+  ...
+}
+.duokan-footnote-item a:last-of-type::after{}
   ...
 }
 ```
