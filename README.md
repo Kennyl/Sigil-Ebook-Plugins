@@ -27,22 +27,22 @@ Inspire from epub forum user
 
 Reorder footnote number push footnote to end of chapter file.
 
-Using [number] as magic tag
+Using [^number] as magic tag (Markdown Extra style)
 
 ```
-<p>HTML[1]</p>
-<div>PY[1]<div>
+<p>HTML[^1]</p>
+<div>PY[^1]<div>
 
-<div>[1] HyperTextMarkupLanuage</div>
-<p>[1] Python</p>
+<div>[^1]: HyperTextMarkupLanuage</div>
+<p>[^1]: Python</p>
 ```
 will be regenerated within chapter.
 ```
-<p>HTML<a epub:type="noteref">[1]</a></p>
-<div>PY<a epub:type="noteref">[2]</a><div>
+<p>HTML<a class="duokan-footnote" href="#fn1" id="fnref1'></a></p>
+<div>PY<a class="duokan-footnote" href="#fn2" id="fnref2'></a><div>
 
-<aside epub:type="footnote"><div>[1] HyperTextMarkupLanuage</div></aside>
-<aside epub:type="footnote"><p>[2] Python</p></aside>
+<aside epub:type="footnote"><div><a  href="#fnref1"></a>HyperTextMarkupLanuage<a href="#fnref1">\N{LEFTWARDS ARROW WITH HOOK}</a></div></aside>
+<aside epub:type="footnote"><p><a  href="#fnref2"></a>Python<a href="#fnref2">\N{LEFTWARDS ARROW WITH HOOK}</a></p></aside>
 ```
 
 if set in plugins ```useNumberOrderingInsteadOfIdeograph = False```
@@ -63,7 +63,7 @@ will be regenerated within chapter.
 <aside epub:type="footnote"><p>釋： Python</p></aside>
 ```
 
-However for more complex style, you can edit ```footnote.css``` 
+However for more complex style, you can edit ```footnote.css```
 
 For footnote reference's style
 
