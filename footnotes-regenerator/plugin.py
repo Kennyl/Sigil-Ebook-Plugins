@@ -51,7 +51,6 @@ def runLXML(bk):
                                           innerText)
 
             if elem.text != innerText:
-                print(innerText)
                 elem.getparent().replace(elem,etree.XML("<"+elem.tag+">"+innerText+"</"+elem.tag+">"))
 
             found_footnote = re.search(footnote_re, innerText)
@@ -64,7 +63,7 @@ def runLXML(bk):
                 xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+
                                 '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
                                 '"></a> '+innerText[found_footnote.end():]+
-                                '<a href="'+str(id)+'#fnref'+str(fnid1)+'">\N{LEFTWARDS ARROW WITH HOOK}</a></p>\n</li>')
+                                '<a href="'+str(id)+'#fnref'+str(fnid1)+'"></a></p>\n</li>')
                 # if useNumberOrderingInsteadOfIdeograph:
                 #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
                 #                     '">['+str(fnid1)+']</a> '+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
@@ -154,6 +153,12 @@ li {
     counter-increment: footnote-index;
     content: counter(footnote-index) "]";
 }
+.duokan-footnote-item a:last-of-type::before{
+    content: "";
+}
+.duokan-footnote-item a:last-of-type::after{
+    content: "\N{LEFTWARDS ARROW WITH HOOK}";
+}
 .fn {
     text-indent: 0;
 }'''
@@ -206,6 +211,13 @@ li {
 }
 .duokan-footnote-item a:first-of-type::after{
     content: "釋：";
+}
+
+.duokan-footnote-item a:last-of-type::before{
+    content: "";
+}
+.duokan-footnote-item a:last-of-type::after{
+    content:  "\N{LEFTWARDS ARROW WITH HOOK}";
 }
 .fn {
     text-indent: 0;
