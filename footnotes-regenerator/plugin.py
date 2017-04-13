@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-# from __future__ import unicode_literals, division, absolute_import, print_function
 import sys
 import re
 from lxml import etree, html
-# import sigil_bs4
-
-# def fixSelfCloseTags(html):
-#     return html.replace("></link>","/>").replace("<br></br>","<br/>").replace("></img>","/>")
 
 
 def runLXML(bk):
     useNumberOrderingInsteadOfIdeograph = True
+    noteref_re = r'([^>])(\[\^\d+\])([^:])'
+    footnote_re = r'^(\[[\^]\d+\]):'
+    #old
+    # noteref_re = r'[^>](\[\d+\])'
+    # footnote_re = r'^(\[[]\d+\])'
     previewConstant = 10
     lastid = 0
     fnid = 0
@@ -24,38 +24,47 @@ def runLXML(bk):
         html_original = bk.readfile(id)
         doc = html.fromstring(html_original.encode("utf-8"))
         doc.attrib['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
-        ol = etree.SubElement(doc.xpath("//*[local-name() = 'body']")[0], "ol", attrib={"class": "duokan-footnote-content"})
+        ol = etree.SubElement(doc.xpath("//*[local-name() = 'body']")[0],
+                              "ol",
+                              attrib={"class": "duokan-footnote-content"})
         pathsearch = "//*[local-name()='p' or local-name()='div' or local-name()='span']"
         elements = doc.xpath(pathsearch)
         for elem in elements:
             innerText = elem.text
             if innerText is None:
                 continue
-            found_noteref = re.search("[^>](\[\d+\])", innerText)
+            found_noteref = re.search(noteref_re, innerText)
             while found_noteref is not None:
                 modified = True
                 fnid += 1
-                innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
-                                   '"></a>',innerText,1)
+                innerText = re.sub(noteref_re,
+                                   r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+r'" id="fnref'+str(fnid)+r'"></a>\3',
+                                   innerText,
+                                   1)
                 # if useNumberOrderingInsteadOfIdeograph:
                 #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
                 #                        '">['+str(fnid)+']</a>',innerText,1)
                 # else:
                 #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
                 #                        '">注</a>',innerText,1)
-                found_noteref = re.search(r'([^>])\[\d+\]',innerText)
+                found_noteref = re.search(noteref_re,
+                                          innerText)
 
             if elem.text != innerText:
+                print(innerText)
                 elem.getparent().replace(elem,etree.XML("<"+elem.tag+">"+innerText+"</"+elem.tag+">"))
 
-            found_footnote = re.search("^(\[\d+\])", innerText)
+            found_footnote = re.search(footnote_re, innerText)
             if found_footnote is not None:
                 modified = True
                 fnid1 += 1
-                aside = etree.SubElement(ol,"aside", attrib={"epub:type": "footnote"})
-                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
-                                '"></a> '+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
-
+                aside = etree.SubElement(ol,
+                                         "aside",
+                                         attrib={"epub:type": "footnote"})
+                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+
+                                '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
+                                '"></a> '+innerText[found_footnote.end():]+
+                                '<a href="'+str(id)+'#fnref'+str(fnid1)+'">\N{LEFTWARDS ARROW WITH HOOK}</a></p>\n</li>')
                 # if useNumberOrderingInsteadOfIdeograph:
                 #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
                 #                     '">['+str(fnid1)+']</a> '+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
@@ -71,12 +80,18 @@ def runLXML(bk):
         if modified:
             # head = doc.xpath("//*[local-name() = 'head']")[0]
             head = doc.xpath("//*[local-name() = 'head']")[0]
-            link = etree.SubElement(head, "link", attrib={'href': "../Styles/footnote.css",
-                                                          'rel': "stylesheet",
-                                                          'type': "text/css"
-                                                         })
+            link = etree.SubElement(head,
+                                    "link",
+                                    attrib={'href': "../Styles/footnote.css",
+                                            'rel': "stylesheet",
+                                            'type': "text/css"
+                                           })
             # head.append(link)
-            bk.writefile(id,etree.tostring(doc, encoding="utf-8", xml_declaration=True).decode('utf8'))
+            bk.writefile(id,
+                         etree.tostring(
+                             doc,
+                             encoding="utf-8",
+                             xml_declaration=True).decode('utf8'))
         modified = False
         lastid = id
 #css
@@ -124,7 +139,7 @@ li {
     font-size: 0.95em;
     text-align: justify;
 }
-.duokan-footnote-item a{
+.duokan-footnote-item a:first-of-type{
     text-decoration: none;
     background: black;
     color: white;
@@ -132,10 +147,10 @@ li {
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
-.duokan-footnote-item a::before{
+.duokan-footnote-item a:first-of-type::before{
     content: "[";
 }
-.duokan-footnote-item a::after{
+.duokan-footnote-item a:first-of-type::after{
     counter-increment: footnote-index;
     content: counter(footnote-index) "]";
 }
@@ -178,7 +193,7 @@ li {
     font-size: 0.95em;
     text-align: justify;
 }
-.duokan-footnote-item a{
+.duokan-footnote-item a:first-of-type{
     text-decoration: none;
     background: black;
     color: white;
@@ -186,10 +201,10 @@ li {
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
 }
-.duokan-footnote-item a::before{
+.duokan-footnote-item a:first-of-type::before{
     content: "";
 }
-.duokan-footnote-item a::after{
+.duokan-footnote-item a:first-of-type::after{
     content: "釋：";
 }
 .fn {
