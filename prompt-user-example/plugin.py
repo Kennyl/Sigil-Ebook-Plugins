@@ -9,23 +9,22 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
 
 class askSetting(QWidget):
 
-   def makeFunc1(self, x):
-     return lambda:self.btnstate(x)
 
-
-   def __init__(self, parent = None, items = {"Default": True, "Text": ""}):
+   def __init__(self, app = None, parent = None, items = {"Default": True, "Text": ""}):
       super(askSetting, self).__init__(parent)
 
-      layout = QVBoxLayout()
-      self.buttons = {}
-      self.lineedits = {}
+      self.app = app
       self.items = items
 
+      layout = QVBoxLayout()
+
+      self.buttons = {}
+      self.lineedits = {}
+
       for key in items.keys():
-        if type(items[key])==bool :
+        if type(items[key]) == bool :
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
-            self.buttons[key].stateChanged.connect(self.makeFunc1(key))
             layout.addWidget(self.buttons[key])
         else:
          # I Default it is string
@@ -36,26 +35,25 @@ class askSetting(QWidget):
             layoutX.addWidget(self.lineedits[key])
             layout.addLayout(layoutX)
 
-
       self.btn = QPushButton('OK', self)
       self.btn.clicked.connect(lambda:(self.bye(items)))
 
       layout.addWidget(self.btn)
 
       self.setLayout(layout)
-      self.setWindowTitle("Setting")
+      self.setWindowTitle(' Setting ')
 
 
    def bye(self, items):
        for key in self.lineedits.keys():
            self.items[key] = self.lineedits[key].text()
+       for key in self.buttons.keys():
+           self.items[key] = self.buttons[key].isChecked()
        self.close()
+       self.app.exit(1)
 
-   def edited(self, key):
-       self.items[key] = self.lineedits[key].getText()
-
-   def btnstate(self,key):
-       self.items[key] = self.buttons[key].isChecked()
+   # def btnstate(self,key):
+   #     self.items[key] = self.buttons[key].isChecked()
 
 def run(bk):
     if sys.platform == "darwin":
@@ -66,11 +64,15 @@ def run(bk):
              "CheckBox2": False,
              "TextBox2": "2"}
     app = QApplication(sys.argv)
-    ask = askSetting(None,items=items)
+    ask = askSetting(app=app, items=items)
     ask.show()
-    app.exec_()
+    rtnCode = app.exec_()
+    #If press OK button  rtnCode should be 1
+    if rtnCode != 1 :
+        return 0
 
     print(items)
+    
     abc = bk.selected_iter()
     if abc is None:
         print("None")
