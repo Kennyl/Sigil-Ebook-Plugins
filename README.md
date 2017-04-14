@@ -8,6 +8,7 @@ Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 - [full-width-digit](#full-width-digit)
 - [full-width-punctuation](#full-width-punctuation)
 - [kobo-footnotes-enhance](#kobo-footnotes-enhance)
+- [prompt-user-example](#prompt-user-example)
 - [vertical-cjk-punctuation](#vertical-cjk-punctuation)
 - [vertical-rtl](#vertical-rtl)
 
@@ -135,13 +136,35 @@ zip full-width-punctuation.zip full-width-punctuation/plugin.py full-width-punct
 This plugin will link (校記1）<-> section ■校記 of 1
 and （注釋2）<-> section ■注釋 of 2
 
-Adpative for modification in source code.
+Adaptive for modification in source code.
 
 Make Plugin for Sigil
 ```
 zip kobo-footnotes-enhance.zip kobo-footnotes-enhance/plugin.py kobo-footnotes-enhance/plugin.xml
 ```
 <hr/>
+
+## prompt-user-example
+
+Example used for prompt user input before plugin start
+
+Support OneLineText and CheckBox
+
+Set dict as following {"key":value}
+
+```items = {"TextBox1": "",
+         "CheckBox1": True,
+         "CheckBox2": False,
+         "TextBox2": "2"}
+```
+
+Make Plugin for Sigil
+
+```
+zip prompt-user-example.zip prompt-user-example/plugin.py prompt-user-example/plugin.xml
+```
+
+<hr />
 
 ## vertical-cjk-punctuation
 

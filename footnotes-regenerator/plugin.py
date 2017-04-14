@@ -4,6 +4,15 @@ import sys
 import re
 from lxml import etree, html
 
+'''
+
+Markdown Extra style change footnote to epub:type=footnote
+Example.
+Note Reference [^1]
+
+[^2]: Footnote
+
+'''
 
 def runLXML(bk):
     useNumberOrderingInsteadOfIdeograph = True

@@ -12,6 +12,7 @@ plugins=( \
 "vertical-cjk-punctuation" \
 "vertical-rtl" \
 "test-plugin" \
+"prompt-user-example" \
 )
 
 for plugin_name in ${plugins[@]}
