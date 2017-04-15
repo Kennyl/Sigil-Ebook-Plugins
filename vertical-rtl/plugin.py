@@ -77,6 +77,16 @@ body {
         uid = "t2bv2lcss"
         mime = "text/css"
         bk.addfile(uid, basename, cssdata, mime)
+
+
+    bk.setspine_ppd('rtl')
+    xml = bk.getmetadataxml()
+
+    if '<meta name="primary-writing-mode" content="vertical-rl"/>' not in xml:
+        xml = xml.replace('</metadata>',
+                '<meta name="primary-writing-mode" content="vertical-rl"/>\n</metadata>')
+        bk.setmetadataxml(xml)
+
     print('end')
     return 0
 

@@ -6,6 +6,6 @@
 <description>Layout, "Top 2 Bottom , Right 2 Left" for Sigil</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>20170413</version>
+<version>20170415</version>
 <oslist>osx,unx,win</oslist>
 </plugin>
