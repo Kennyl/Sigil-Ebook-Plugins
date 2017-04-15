@@ -23,13 +23,13 @@ def runLXML(bk):
     # footnote_re = r'^(\[[]\d+\])'
     previewConstant = 10
     lastid = 0
-    fnid = 0
-    fnid1 = 0
+    nref_id = 0
+    fn_id = 0
     modified = False
     for (id, href) in bk.text_iter():
-        if fnid != fnid1:
-            print("\nReference ID desync, restart at %s." % str(fnid1))
-            fnid = fnid1
+        if nref_id != fn_id:
+            print("\nReference ID desync, restart at %s." % str(fn_id))
+            nref_id = fn_id
         html_original = bk.readfile(id)
         doc = html.fromstring(html_original.encode("utf-8"))
         doc.attrib['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
@@ -45,16 +45,16 @@ def runLXML(bk):
             found_noteref = re.search(noteref_re, innerText)
             while found_noteref is not None:
                 modified = True
-                fnid += 1
+                nref_id += 1
                 innerText = re.sub(noteref_re,
-                                   r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+r'" id="fnref'+str(fnid)+r'"></a>\3',
+                                   r'\1<a class="duokan-footnote" href="#fn'+str(nref_id)+r'" id="fnref'+str(nref_id)+r'"></a>\3',
                                    innerText,
                                    1)
                 # if useNumberOrderingInsteadOfIdeograph:
-                #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
-                #                        '">['+str(fnid)+']</a>',innerText,1)
+                #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(nref_id)+'" id="fnref'+str(nref_id)+
+                #                        '">['+str(nref_id)+']</a>',innerText,1)
                 # else:
-                #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(fnid)+'" id="fnref'+str(fnid)+
+                #     innerText = re.sub(r'([^>])\[\d+\]',r'\1<a class="duokan-footnote" href="#fn'+str(nref_id)+'" id="fnref'+str(nref_id)+
                 #                        '">注</a>',innerText,1)
                 found_noteref = re.search(noteref_re,
                                           innerText)
@@ -65,19 +65,19 @@ def runLXML(bk):
             found_footnote = re.search(footnote_re, innerText)
             if found_footnote is not None:
                 modified = True
-                fnid1 += 1
+                fn_id += 1
                 aside = etree.SubElement(ol,
                                          "aside",
                                          attrib={"epub:type": "footnote"})
-                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+
-                                '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
+                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id)+
+                                '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id)+
                                 '"></a> '+innerText[found_footnote.end():]+
-                                '<a href="'+str(id)+'#fnref'+str(fnid1)+'"></a></p>\n</li>')
+                                '<a href="'+str(id)+'#fnref'+str(fn_id)+'"></a></p>\n</li>')
                 # if useNumberOrderingInsteadOfIdeograph:
-                #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
-                #                     '">['+str(fnid1)+']</a> '+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
+                #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id)+
+                #                     '">['+str(fn_id)+']</a> '+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
                 # else:
-                #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fnid1)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fnid1)+
+                #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id)+
                 #                     '">原文</a>：'+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
                 aside.append(xml)
                 elem.getparent().remove(elem)
@@ -103,7 +103,7 @@ def runLXML(bk):
         modified = False
         lastid = id
 #css
-    if fnid > 0:
+    if nref_id > 0:
         if useNumberOrderingInsteadOfIdeograph:
             cssdata = '''
 body{
@@ -243,14 +243,14 @@ li {
 #     useNumberOrderingInsteadOfIdeograph = False
 #     previewConstant = 10
 #     lastid = 0
-#     fnid = 0
-#     fnid1 = 0
+#     nref_id = 0
+#     fn_id = 0
 #     modified = False
 # # all xhtml/html files - moves found notes to end of file, insert a link in the text and link to css in the files with notes
 #     for (id, href) in bk.text_iter():
-#         if fnid != fnid1:
-#             print("\nReference ID desync, restart at %s." % str(fnid1))
-#             fnid = fnid1
+#         if nref_id != fn_id:
+#             print("\nReference ID desync, restart at %s." % str(fn_id))
+#             nref_id = fn_id
 #         html = bk.readfile(id)
 #         html = html.replace("<br/>","")
 #         soup = sigil_bs4.BeautifulSoup(html, "lxml")
@@ -259,7 +259,7 @@ li {
 #         # br tag  will cause p tag cannot be found
 #         for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('.+(\[\d+\])')):
 #             modified = True
-#             fnid = fnid + 1
+#             nref_id = nref_id + 1
 #             text =  elem.string
 #             elem.clear()
 #             match = re.search(r'(\[\d+\])', text)
@@ -269,28 +269,28 @@ li {
 #                 a = sigil_bs4.Tag(name="a")
 #                 a["class"] = "duokan-footnote"
 #                 a["epub:type"]= "noteref"
-#                 a["href"]='#fn'+str(fnid)
-#                 a["id"] = "fnref"+str(fnid)
+#                 a["href"]='#fn'+str(nref_id)
+#                 a["id"] = "fnref"+str(nref_id)
 #                 if useNumberOrderingInsteadOfIdeograph:
-#                     a.string = "["+str(fnid)+"]"
+#                     a.string = "["+str(nref_id)+"]"
 #                 else:
 #                     a.string = "注"
 #                 elem.append(a)
 #                 preview = 0
 #                 if start > previewConstant:
 #                     preview = start - previewConstant
-#                 print("\n", id, href, str(fnid), ':', text[preview:start])
+#                 print("\n", id, href, str(nref_id), ':', text[preview:start])
 #                 text = text[end:]
 #                 match = re.search(r'(\[\d+\])', text)
 #                 if match is None:
 #                     elem.append(text)
 #                 else:
-#                     fnid = fnid + 1
+#                     nref_id = nref_id + 1
 #
 #         for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('^\[\d+\]')):
 #             modified = True
-#             fnid1 = fnid1 + 1
-#             print("\n", id, href, '', str(fnid1), ':', elem.string)
+#             fn_id = fn_id + 1
+#             print("\n", id, href, '', str(fn_id), ':', elem.string)
 #             text =  elem.string
 #             e = elem.extract()
 #             e.clear()
@@ -299,11 +299,11 @@ li {
 #             aside["epub:type"] = "footnote"
 #             li = sigil_bs4.Tag(name="li")
 #             li['class'] = "duokan-footnote-item"
-#             li['id'] = 'fn'+str(fnid1)
+#             li['id'] = 'fn'+str(fn_id)
 #             a = sigil_bs4.Tag(name="a")
-#             a['href'] = str(id)+'#fnref'+str(fnid1)
+#             a['href'] = str(id)+'#fnref'+str(fn_id)
 #             if useNumberOrderingInsteadOfIdeograph:
-#                 a.string = '['+str(fnid1)+']'
+#                 a.string = '['+str(fn_id)+']'
 #                 e.append(a)
 #                 e.append(text[match.end():])
 #             else:
@@ -327,7 +327,7 @@ li {
 #         modified = False
 #         lastid = id
 # #css
-#     if fnid > 0:
+#     if nref_id > 0:
 #         cssdata = '''.duokan-footnote-item {
 #     margin: 0 0.6em;
 #     line-height: 130%;

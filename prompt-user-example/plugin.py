@@ -6,11 +6,17 @@ import sys
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
     QInputDialog, QApplication, QHBoxLayout, QVBoxLayout, QCheckBox)
 
+import PyQt5.QtCore
 
 class askSetting(QWidget):
 
 
-   def __init__(self, app = None, parent = None, items = {"Default": True, "Text": ""}):
+   def __init__(self,
+                app = None,
+                parent = None,
+                items = {"Default Checkbox": True,
+                         "Default Textbox": ""}):
+
       super(askSetting, self).__init__(parent)
 
       self.app = app
@@ -25,6 +31,7 @@ class askSetting(QWidget):
         if type(items[key]) == bool :
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
+            self.buttons[key].setFocusPolicy(PyQt5.QtCore.Qt.StrongFocus)
             layout.addWidget(self.buttons[key])
         else:
          # I Default it is string
@@ -69,10 +76,11 @@ def run(bk):
     rtnCode = app.exec_()
     #If press OK button  rtnCode should be 1
     if rtnCode != 1 :
-        return 0
+        print('User abort by closing Setting dialog')
+        return -1
 
     print(items)
-    
+    #selected file in file list
     abc = bk.selected_iter()
     if abc is None:
         print("None")
