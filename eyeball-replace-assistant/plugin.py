@@ -78,30 +78,39 @@ def run(bk):
     result_dicts = {}
     for word in searching_words:
         result_dicts[word] = {}
-
+    tsv = 'href\tword\tapprox_postion\tpattern\n'
+    print('href\tword\tapprox_postion\tpattern')
     for (file_id, href) in bk.text_iter():
         if href.startswith("Text/_eyeball-replace-assistant"):
             continue
         html_original = bk.readfile(file_id)
         for word in searching_words:
-            match = re.search('(.?.?.?'+word+'.?.?.?)', html_original)
-            if match is not None:
+            for match in re.finditer(r'.{0,3}'+word+r'.{0,3}',
+                                     html_original,
+                                     re.DOTALL):
                 # print(match.group(1))
-                if match.group(1) in result_dicts[word]:
-                    result_dicts[word][match.group(1)].append(href)
+                if match.group(0) in result_dicts[word]:
+                    result_dicts[word][match.group(0)].append(href)
                 else:
-                    result_dicts[word][match.group(1)] = [href]
+                    result_dicts[word][match.group(0)] = [href]
+                print('%s\t%s\t%s\t%s' % (href, word, match.start(), match.group(0)))
+                tsv += '%s\t%s\t%s\t%s\n' % (href, word, match.start(), match.group(0))
 
     print('\n\n===================================================\n')
-    print("File saved as Text/_eyeball-replace-assistant*.htm")
+    print("File saved as Text/_eyeball-replace-assistant*.html")
     print('===================================================\n\n')
     text = ""
     for word in sorted(result_dicts):
+        print("%s (%s) " % (word, len(result_dicts[word])))
+        print('===================================================')
         for pattern in sorted(result_dicts[word]):
-            line = "Found %s as pattern %s in %s ." % (pattern, word, result_dicts[word][pattern])
+            # line = "Found %s as pattern %s in %s ." % (pattern, word, result_dicts[word][pattern])
+            line = pattern
             print(line)
             text += line + "\n"
-    print('\n\n===================================================\n\n')
+        print('===================================================')
+    print('\n            Done. Copy as you need\n')
+    print('===================================================\n\n')
 
     if text != "":
         #revesed list
@@ -127,15 +136,17 @@ def run(bk):
         body = ""
 
         for href in sorted(reversed_dicts):
+            body += '<br/><hr/><a href="%s">%s</a><br/><hr/>\n' % (href, href)
             for word in sorted(reversed_dicts[href]):
                 pattern = reversed_dicts[href][word]
                 text += 'In %s has word %s in pattern %s .' % (href, word, pattern)
-                line = r'<br/> In <a href="%s">%s</a> has word %s in pattern %s .' % (href, href, word, html.escape(r''.join(pattern)))
+                line = r'<br/>Word %s in pattern(s) %s .' % (word, html.escape(r''.join(pattern)))
                 body += line + "\n"
-            body += "<hr/>\n"
+            body += "<br/><hr/>\n"
 
         # bk.addotherfile('eyeball-replace-assistant.txt',text)
         bk.addotherfile('_eyeball-replace-assistant.html', '<html><body>'+body+'</body></html>')
+        bk.addotherfile('_eyeball-replace-assistant.tsv.txt', tsv)
 
     return 0
 
