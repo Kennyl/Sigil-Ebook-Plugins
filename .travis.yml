@@ -13,18 +13,18 @@ install: false
 script: ./build.sh
 
 deploy:
-  - provider: releases
-    api_key: '$GITHUB_API_KEY'
-    file_glob: true
-    file: "*.zip"
-    skip_cleanup: true
-    on:
-      tags: true
-      
-  - provider: pages
-    api_key: '$GITHUB_API_KEY'
-    file_glob: true
-    file: "*.zip"
-    skip_cleanup: true
-    on:
-      tags: true
+  provider: releases
+  api_key: '$GITHUB_API_KEY'
+  file_glob: true
+  file: "*.zip"
+  skip_cleanup: true
+  on:
+    tags: true
+
+  # - provider: pages
+  #   api_key: '$GITHUB_API_KEY'
+  #   file_glob: true
+  #   file: "*.zip"
+  #   skip_cleanup: true
+  #   on:
+  #     tags: true
