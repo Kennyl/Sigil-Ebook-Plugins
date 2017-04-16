@@ -4,6 +4,7 @@
 
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
+- [eyeball-replace-assistant](#eyeball-replace-assistant)
 - [footnotes-regenerator](#footnotes-regenerator)
 - [full-width-digit](#full-width-digit)
 - [full-width-punctuation](#full-width-punctuation)
@@ -18,6 +19,18 @@ For example making footnotes-regenerator plugin
 
 ```
 zip footnotes-regenerator.zip footnotes-regenerator/p*
+```
+
+## eyeball-replace-assistant
+
+Search input terms seperated by Spacebar using following regexp
+
+.?.?.?[your term].?.?.?
+
+and place result in  Text/\_eyeball-replace-assistant*.html
+
+```
+zip eyeball-replace-assistant.zip eyeball-replace-assistant/p*
 ```
 
 ## footnotes-regenerator

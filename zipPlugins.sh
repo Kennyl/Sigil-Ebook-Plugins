@@ -13,6 +13,7 @@ plugins=( \
 "vertical-rtl" \
 "test-plugin" \
 "prompt-user-example" \
+"eyeball-replace-assistant" \
 )
 
 for plugin_name in ${plugins[@]}
