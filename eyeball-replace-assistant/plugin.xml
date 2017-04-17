@@ -5,6 +5,6 @@
 <author>Nobody</author>
 <description>Test Plugin</description>
 <engine>python3.4</engine>
-<version>20170416</version>
+<version>20170417</version>
 <oslist>osx,unx,win</oslist>
 </plugin>

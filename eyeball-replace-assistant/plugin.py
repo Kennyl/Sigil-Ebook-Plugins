@@ -12,6 +12,7 @@ import PyQt5.QtCore
 
 lineEditPrompt = "String to Find (seperated in Spacebar)"
 defaultInput =  "幹 乾 干 髮 里 裡 衝 沖 制 製 準"
+regexpCondition = r'.{0,3}'
 
 class askSetting(QWidget):
 
@@ -59,7 +60,7 @@ class askSetting(QWidget):
 
 def run(bk):
     if sys.platform == "darwin":
-        print("Don't use bundle python or it may not work")
+        print("Plugin using PyQt5, bundled Python may not work")
 
     items = {lineEditPrompt:defaultInput}
 
@@ -78,14 +79,14 @@ def run(bk):
     result_dicts = {}
     for word in searching_words:
         result_dicts[word] = {}
-    tsv = 'href\tword\tapprox_postion\tpattern\n'
-    print('href\tword\tapprox_postion\tpattern')
+    tsv = 'HRef\tWord\tRow\tColumn\tPattern\n'
+    print('HRef\tWord\tRow\tColumn\tPattern')
     for (file_id, href) in bk.text_iter():
         if href.startswith("Text/_eyeball-replace-assistant"):
             continue
         html_original = bk.readfile(file_id)
         for word in searching_words:
-            for match in re.finditer(r'.{0,3}'+word+r'.{0,3}',
+            for match in re.finditer(regexpCondition + word + regexpCondition,
                                      html_original,
                                      re.DOTALL):
                 # print(match.group(1))
@@ -93,8 +94,13 @@ def run(bk):
                     result_dicts[word][match.group(0)].append(href)
                 else:
                     result_dicts[word][match.group(0)] = [href]
-                print('%s\t%s\t%s\t%s' % (href, word, match.start(), match.group(0)))
-                tsv += '%s\t%s\t%s\t%s\n' % (href, word, match.start(), match.group(0))
+                row = html_original[:match.start()].count('\n')+1
+                column = match.start() - html_original[:match.start()].rfind('\n')
+                pattern = match.group(0)
+                print('%s\t%s\t%s\t%s\t%s'
+                      % (href, word, row, column, pattern))
+                tsv += ('%s\t%s\t%s\t%s\t%s\n'
+                        % (href, word, row, column, pattern))
 
     print('\n\n===================================================\n')
     print("File saved as Text/_eyeball-replace-assistant*.html")
@@ -125,29 +131,29 @@ def run(bk):
                             reversed_dicts[href][word]=[pattern]
                         else:
                             reversed_dicts[href][word].append(pattern)
-                # if word not in reversed_dicts
-                #     reversed_dicts[word] =
-                # href = result_dicts[word][pattern]
-                # dict1 = reversed_dicts.setdefault(href, {word:[pattern]})
-                # dict2 = dict1.setdefault(word,[])
-                # dict2.append(pattern)
 
         text += '\n\n===================================================\n\n'
-        body = ""
+        body = ('<abbr title="Tab Seperated Version">TSV</abbr>'
+        '(Tab Seperated Version) as text file '
+        '<a href="Misc/_eyeball-replace-assistant.tsv.txt">'
+        'Misc/_eyeball-replace-assistant.tsv.txt</a> <br/><hr/>')
 
         for href in sorted(reversed_dicts):
             body += '<br/><hr/><a href="%s">%s</a><br/><hr/>\n' % (href, href)
             for word in sorted(reversed_dicts[href]):
                 pattern = reversed_dicts[href][word]
-                text += 'In %s has word %s in pattern %s .' % (href, word, pattern)
-                line = r'<br/>Word %s in pattern(s) %s .' % (word, html.escape(r''.join(pattern)))
-                body += line + "\n"
+                text += ('In %s has word %s in following pattern(s):  %s .'
+                         % (href, word, pattern))
+                body += (r'<br/>Word %s in following pattern(s):  %s .\n'
+                        % (word, html.escape(r''.join(pattern))))
             body += "<br/><hr/>\n"
 
         # bk.addotherfile('eyeball-replace-assistant.txt',text)
-        bk.addotherfile('_eyeball-replace-assistant.html', '<html><body>'+body+'</body></html>')
-        bk.addotherfile('_eyeball-replace-assistant.tsv.txt', tsv)
-
+        bk.addotherfile('_eyeball-replace-assistant.html',
+                        '<html><body>'+body+'</body></html>')
+        bk.addotherfile('_eyeball-replace-assistant.tsv.txt',
+                        tsv)
+#varible (text) hasn't used 
     return 0
 
 
