@@ -14,6 +14,7 @@ plugins=( \
 "test-plugin" \
 "prompt-user-example" \
 "eyeball-replace-assistant" \
+"eyeball-replace-validator" \
 )
 
 for plugin_name in ${plugins[@]}

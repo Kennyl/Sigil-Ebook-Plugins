@@ -5,6 +5,7 @@
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
 - [eyeball-replace-assistant](#eyeball-replace-assistant)
+- [eyeball-replace-validator](#eyeball-replace-validator)
 - [footnotes-regenerator](#footnotes-regenerator)
 - [full-width-digit](#full-width-digit)
 - [full-width-punctuation](#full-width-punctuation)
@@ -31,6 +32,18 @@ and place result in  Text/\_eyeball-replace-assistant*.html
 
 ```
 zip eyeball-replace-assistant.zip eyeball-replace-assistant/p*
+```
+
+## eyeball-replace-validator
+
+Search input terms seperated by Spacebar (```term1  term2 term3```)using following regexp
+
+.?.?.?term1.?.?.?
+
+Result will show on validation window
+
+```
+zip eyeball-replace-validator.zip eyeball-replace-validator/p*
 ```
 
 ## footnotes-regenerator
