@@ -37,6 +37,7 @@ class askSetting(QWidget):
         if type(items[key]) is bool:
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
+            self.buttons[key].setFocusPolicy(PyQt5.QtCore.Qt.StrongFocus)
             layout.addWidget(self.buttons[key])
         else:
             layout.addWidget(QLabel(key))
