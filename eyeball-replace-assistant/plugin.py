@@ -121,10 +121,10 @@ def run(bk):
     print('===================================================\n\n')
     breakdown_text = ""
     for word in sorted(result_dicts):
-        print("%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word] ))
+        print("%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word]))
         print('===================================================')
         breakdown_text += '\n===================================================\n'
-        breakdown_text += "%s (%s) " % (word, len(result_dicts[word]))
+        breakdown_text += "%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word])
         breakdown_text += '\n===================================================\n'
         for pattern in sorted(result_dicts[word]):
             # line = "Found %s as pattern %s in %s ." % (pattern, word, result_dicts[word][pattern])
