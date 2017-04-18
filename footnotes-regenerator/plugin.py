@@ -26,11 +26,11 @@ def runLXML(bk):
     nref_id = 0
     fn_id = 0
     modified = False
-    for (id, href) in bk.text_iter():
+    for (file_id, _) in bk.text_iter():
         if nref_id != fn_id:
             print("\nReference ID desync, restart at %s." % str(fn_id))
             nref_id = fn_id
-        html_original = bk.readfile(id)
+        html_original = bk.readfile(file_id)
         doc = html.fromstring(html_original.encode("utf-8"))
         doc.attrib['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
         ol = etree.SubElement(doc.xpath("//*[local-name() = 'body']")[0],
@@ -88,20 +88,19 @@ def runLXML(bk):
         if modified:
             # head = doc.xpath("//*[local-name() = 'head']")[0]
             head = doc.xpath("//*[local-name() = 'head']")[0]
-            link = etree.SubElement(head,
-                                    "link",
-                                    attrib={'href': "../Styles/footnote.css",
-                                            'rel': "stylesheet",
-                                            'type': "text/css"
-                                           })
-            # head.append(link)
-            bk.writefile(id,
+            etree.SubElement(head,
+                             "link",
+                             attrib={'href': "../Styles/footnote.css",
+                                     'rel': "stylesheet",
+                                     'type': "text/css"
+                                    })
+            bk.writefile(file_id,
                          etree.tostring(
                              doc,
                              encoding="utf-8",
                              xml_declaration=True).decode('utf8'))
         modified = False
-        lastid = id
+        lastid = file_id
 #css
     if nref_id > 0:
         if useNumberOrderingInsteadOfIdeograph:
@@ -236,141 +235,6 @@ li {
         mime = "text/css"
         bk.addfile(uid, basename, cssdata, mime)
     return 0
-
-
-# #old logic using BeautifulSoup
-# def runBS(bk):
-#     useNumberOrderingInsteadOfIdeograph = False
-#     previewConstant = 10
-#     lastid = 0
-#     nref_id = 0
-#     fn_id = 0
-#     modified = False
-# # all xhtml/html files - moves found notes to end of file, insert a link in the text and link to css in the files with notes
-#     for (id, href) in bk.text_iter():
-#         if nref_id != fn_id:
-#             print("\nReference ID desync, restart at %s." % str(fn_id))
-#             nref_id = fn_id
-#         html = bk.readfile(id)
-#         html = html.replace("<br/>","")
-#         soup = sigil_bs4.BeautifulSoup(html, "lxml")
-#         ol = sigil_bs4.Tag(name="ol")
-#         ol['class'] = "duokan-footnote-content"
-#         # br tag  will cause p tag cannot be found
-#         for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('.+(\[\d+\])')):
-#             modified = True
-#             nref_id = nref_id + 1
-#             text =  elem.string
-#             elem.clear()
-#             match = re.search(r'(\[\d+\])', text)
-#             while match is not None:
-#                 start, end = match.start(), match.end()
-#                 elem.append(text[:start])
-#                 a = sigil_bs4.Tag(name="a")
-#                 a["class"] = "duokan-footnote"
-#                 a["epub:type"]= "noteref"
-#                 a["href"]='#fn'+str(nref_id)
-#                 a["id"] = "fnref"+str(nref_id)
-#                 if useNumberOrderingInsteadOfIdeograph:
-#                     a.string = "["+str(nref_id)+"]"
-#                 else:
-#                     a.string = "注"
-#                 elem.append(a)
-#                 preview = 0
-#                 if start > previewConstant:
-#                     preview = start - previewConstant
-#                 print("\n", id, href, str(nref_id), ':', text[preview:start])
-#                 text = text[end:]
-#                 match = re.search(r'(\[\d+\])', text)
-#                 if match is None:
-#                     elem.append(text)
-#                 else:
-#                     nref_id = nref_id + 1
-#
-#         for elem in soup.findAll(['p', 'div', 'span'], text=re.compile('^\[\d+\]')):
-#             modified = True
-#             fn_id = fn_id + 1
-#             print("\n", id, href, '', str(fn_id), ':', elem.string)
-#             text =  elem.string
-#             e = elem.extract()
-#             e.clear()
-#             match = re.search(r'(\[\d+\])', text)
-#             aside = sigil_bs4.Tag(name="aside")
-#             aside["epub:type"] = "footnote"
-#             li = sigil_bs4.Tag(name="li")
-#             li['class'] = "duokan-footnote-item"
-#             li['id'] = 'fn'+str(fn_id)
-#             a = sigil_bs4.Tag(name="a")
-#             a['href'] = str(id)+'#fnref'+str(fn_id)
-#             if useNumberOrderingInsteadOfIdeograph:
-#                 a.string = '['+str(fn_id)+']'
-#                 e.append(a)
-#                 e.append(text[match.end():])
-#             else:
-#                 a.string = "原文"
-#                 e.append(a)
-#                 e.append("：" + text[match.end():])
-#             li.append(e)
-#             aside.append(li)
-#             ol.append(aside)
-#         if modified:
-#             soup.html.attrs['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
-#             link = sigil_bs4.Tag(name="link")
-#             link['href'] = "../Styles/footnote.css"
-#             link['rel'] = "stylesheet"
-#             link['type'] = "text/css"
-#             soup.html.head.append(link)
-#             soup.html.body.append(ol)
-#             # dunno why sigil cannot have valid close tag
-#             html = fixSelfCloseTags(str(soup))
-#             bk.writefile(id,html)
-#         modified = False
-#         lastid = id
-# #css
-#     if nref_id > 0:
-#         cssdata = '''.duokan-footnote-item {
-#     margin: 0 0.6em;
-#     line-height: 130%;
-#     text-indent: 2em;
-#     font-weight: bold;
-#     font-size: 0.95em;
-#     text-align: justify;
-# }
-# .duokan-footnote-item a{
-#     text-decoration: none;
-#     background: black;
-#     color: white;
-#     border-radius: 50%;
-#     -moz-border-radius: 50%;
-#     -webkit-border-radius: 50%;
-# }
-# .fn {
-#     text-indent: 0;
-# }
-# a.duokan-footnote {
-#     line-height: 1;
-#     vertical-align: super;
-#     text-decoration: none;
-#     height: auto;
-#     border: 0;
-#     background: black;
-#     color: white;
-#     border-radius: 50%;
-#     -moz-border-radius: 50%;
-#     -webkit-border-radius: 50%;
-# }
-# ol {
-#     list-style: none;
-# }
-# li {
-#     text-decoration: none;
-# }'''
-#         basename = "footnote.css"
-#         uid = "footnotecss"
-#         mime = "text/css"
-#         bk.addfile(uid, basename, cssdata, mime)
-#     return 0
-
 
 def run(bk):
     return runLXML(bk)

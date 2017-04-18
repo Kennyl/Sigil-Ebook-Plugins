@@ -21,9 +21,9 @@ def fixSelfCloseTags(html):
 
 def run(bk):
     print('start')
-    for (id, href) in bk.text_iter():
+    for (file_id, _) in bk.text_iter():
         modified = False
-        html = bk.readfile(id)
+        html = bk.readfile(file_id)
         # html = html.replace("<br/>","")
         soup = sigil_bs4.BeautifulSoup(html)
         # br tag  will cause p tag cannot be found
@@ -36,7 +36,7 @@ def run(bk):
             # print(elem.string)
         if modified:
             print("Modifed File -> ", id)
-            bk.writefile(id, fixSelfCloseTags(str(soup)))
+            bk.writefile(file_id, fixSelfCloseTags(str(soup)))
     return 0
 
 

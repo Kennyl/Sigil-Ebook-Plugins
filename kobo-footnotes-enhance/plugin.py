@@ -15,13 +15,13 @@ def run(bk):
     modified = False
 # all xhtml/html files - moves found notes to end of file, insert a link in the text and link to css in the files with notes
     step = 1  # 1 for footnote #2 For 校記 #3 for noteref
-    for (id, href) in bk.text_iter():
+    for (file_id, href) in bk.text_iter():
         step = 1
         modified = False
-        print("id ", id, "href ", href)
+        print("id ", file_id, "href ", href)
         if href == "Text/nav.xhtml" or href == "Text/000-cover.xhtml":
             continue
-        content = bk.readfile(id)
+        content = bk.readfile(file_id)
         doc = html.fromstring(content.encode('utf-8'))
         doc.attrib['xmlns:epub'] = 'http://www.idpf.org/2007/ops'
         pathsearch = "//*[local-name()='p' or local-name()='div' or local-name()='span']"
@@ -67,7 +67,7 @@ def run(bk):
             link.attrib['rel'] = "stylesheet"
             link.attrib['type'] = "text/css"
             head.append(link)
-            bk.writefile(id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
+            bk.writefile(file_id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
 
     cssdata = '''
 a.duokan-footnote-item{

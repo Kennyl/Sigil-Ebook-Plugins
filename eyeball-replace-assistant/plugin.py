@@ -1,27 +1,30 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-# from __future__ import unicode_literals, division, absolute_import, print_function
+
 import sys
 import re
 import html
-
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
-    QInputDialog, QApplication, QHBoxLayout, QVBoxLayout, QCheckBox)
+                             QApplication, QHBoxLayout, QVBoxLayout,
+                             QCheckBox)
+from PyQt5.QtCore import Qt
 
-import PyQt5.QtCore
 
 lineEditPrompt = "String to Find (seperated in Spacebar)"
 defaultInput =  "幹 乾 干 髮 里 裡 衝 沖 制 製 準"
 regexpCondition = r'.{0,3}'
+outputAsFilePrompt = "Output As File"
 outputAsFile = True
+
 
 class askSetting(QWidget):
 
 
    def __init__(self,
+                items,
                 app = None,
                 parent = None,
-                items = None):
+                ):
 
       super(askSetting, self).__init__(parent)
 
@@ -37,7 +40,7 @@ class askSetting(QWidget):
         if type(items[key]) is bool:
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
-            self.buttons[key].setFocusPolicy(PyQt5.QtCore.Qt.StrongFocus)
+            self.buttons[key].setFocusPolicy(Qt.StrongFocus)
             layout.addWidget(self.buttons[key])
         else:
             layout.addWidget(QLabel(key))
@@ -69,11 +72,11 @@ def run(bk):
     if sys.platform == "darwin":
         print("Plugin using PyQt5, bundled Python may not work")
 
-    items = {lineEditPrompt:defaultInput,
-             "Output As File":outputAsFile}
+    items = {lineEditPrompt: defaultInput,
+             outputAsFilePrompt: outputAsFile}
 
     app = QApplication(sys.argv)
-    ask = askSetting(app=app, items=items)
+    ask = askSetting(items=items, app=app)
     ask.show()
     rtnCode = app.exec_()
     #If press OK button  rtnCode should be 1

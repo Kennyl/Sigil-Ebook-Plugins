@@ -4,18 +4,19 @@
 import sys
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
-    QInputDialog, QApplication, QHBoxLayout, QVBoxLayout, QCheckBox)
+                             QApplication, QHBoxLayout, QVBoxLayout,
+                             QCheckBox)
+from PyQt5.QtCore import Qt
 
-import PyQt5.QtCore
 
 class askSetting(QWidget):
 
 
    def __init__(self,
+                items,
                 app = None,
-                parent = None,
-                items = {"Default Checkbox": True,
-                         "Default Textbox": ""}):
+                parent = None
+                ):
 
       super(askSetting, self).__init__(parent)
 
@@ -31,7 +32,7 @@ class askSetting(QWidget):
         if type(items[key]) == bool :
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
-            self.buttons[key].setFocusPolicy(PyQt5.QtCore.Qt.StrongFocus)
+            self.buttons[key].setFocusPolicy(Qt.StrongFocus)
             layout.addWidget(self.buttons[key])
         else:
          # I Default it is string
@@ -71,7 +72,7 @@ def run(bk):
              "CheckBox2": False,
              "TextBox2": "2"}
     app = QApplication(sys.argv)
-    ask = askSetting(app=app, items=items)
+    ask = askSetting(items=items, app=app)
     ask.show()
     rtnCode = app.exec_()
     #If press OK button  rtnCode should be 1

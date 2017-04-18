@@ -7,9 +7,9 @@ from lxml import etree, html
 def run(bk):
     count = 0
     print('start')
-    for (id, href) in bk.text_iter():
+    for (file_id, _) in bk.text_iter():
         modified = True
-        html_original = bk.readfile(id)
+        html_original = bk.readfile(file_id)
         doc = html.fromstring(html_original.encode("utf-8"))
         for link in doc.xpath("//*[local-name() = 'link']"):
             if link.attrib['href'] == "../Styles/t2bv2l.css":
@@ -25,8 +25,8 @@ def run(bk):
                                             'rel': "stylesheet",
                                             'type': "text/css"
                                            })
-            print("Modified File : ", id)
-            bk.writefile(id,
+            print("Modified File : ", file_id)
+            bk.writefile(file_id,
                          etree.tostring(
                              doc,
                              encoding="utf-8",

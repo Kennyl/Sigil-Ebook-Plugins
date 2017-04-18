@@ -6,6 +6,6 @@
 <description>Change digit to full width</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>20170402</version>
+<version>20170418</version>
 <oslist>osx,unx,win</oslist>
 </plugin>

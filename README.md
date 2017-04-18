@@ -1,6 +1,6 @@
 # Sigil-Ebook-Plugins
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1f6ee51671344df8b0f1a613243354c1)](https://www.codacy.com/app/Kennyl/Sigil-Ebook-Plugins?utm_source=github.com&utm_medium=referral&utm_content=Kennyl/Sigil-Ebook-Plugins&utm_campaign=badger)[![Build Status](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins.svg?branch=master)](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1f6ee51671344df8b0f1a613243354c1)](https://www.codacy.com/app/Kennyl/Sigil-Ebook-Plugins?utm_source=github.com&utm_medium=referral&utm_content=Kennyl/Sigil-Ebook-Plugins&utm_campaign=badger) [![Build Status](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins.svg?branch=master)](https://travis-ci.org/Kennyl/Sigil-Ebook-Plugins)
 
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
@@ -24,9 +24,9 @@ zip footnotes-regenerator.zip footnotes-regenerator/p*
 
 ## eyeball-replace-assistant
 
-Search input terms seperated by Spacebar using following regexp
+Search input terms seperated by Spacebar (```term1  term2 term3```) using following regexp
 
-.?.?.?[your term].?.?.?
+.?.?.?term1.?.?.?
 
 and place result in  Text/\_eyeball-replace-assistant*.html
 
@@ -36,7 +36,7 @@ zip eyeball-replace-assistant.zip eyeball-replace-assistant/p*
 
 ## eyeball-replace-validator
 
-Search input terms seperated by Spacebar (```term1  term2 term3```)using following regexp
+Search input terms seperated by Spacebar (```term1  term2 term3```) using following regexp
 
 .?.?.?term1.?.?.?
 
