@@ -88,6 +88,7 @@ def run(bk):
     #selected file in file list
     searching_words = items[lineEditPrompt].split(' ')
     result_dicts = {}
+    word_dicts = {}
     for word in searching_words:
         result_dicts[word] = {}
     tsv = 'HRef\tWord\tRow\tColumn\tPattern\n'
@@ -101,6 +102,8 @@ def run(bk):
                                      html_original,
                                      re.DOTALL):
                 # print(match.group(1))
+                occurrence = word_dicts.setdefault(word, 0) + 1
+                word_dicts[word] = occurrence
                 if match.group(0) in result_dicts[word]:
                     result_dicts[word][match.group(0)].append(href)
                 else:
@@ -118,7 +121,7 @@ def run(bk):
     print('===================================================\n\n')
     breakdown_text = ""
     for word in sorted(result_dicts):
-        print("%s (%s) " % (word, len(result_dicts[word])))
+        print("%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word] ))
         print('===================================================')
         breakdown_text += '\n===================================================\n'
         breakdown_text += "%s (%s) " % (word, len(result_dicts[word]))
