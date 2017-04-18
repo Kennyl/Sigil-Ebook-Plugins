@@ -46,6 +46,8 @@ class askSetting(QWidget):
             layout.addWidget(QLabel(key))
             self.lineedits[key] = QLineEdit()
             self.lineedits[key].setText(items[key])
+            # enable ime input
+            self.lineedits[key].inputMethodQuery(Qt.ImEnabled)
             layout.addWidget(self.lineedits[key])
 
       self.btn = QPushButton('OK', self)

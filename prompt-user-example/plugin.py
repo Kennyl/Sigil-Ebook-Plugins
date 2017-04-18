@@ -40,6 +40,8 @@ class askSetting(QWidget):
             layoutX.addWidget(QLabel(key))
             self.lineedits[key] = QLineEdit()
             self.lineedits[key].setText(items[key])
+            #enable ime input
+            self.lineedits[key].inputMethodQuery(Qt.ImEnabled)
             layoutX.addWidget(self.lineedits[key])
             layout.addLayout(layoutX)
 
