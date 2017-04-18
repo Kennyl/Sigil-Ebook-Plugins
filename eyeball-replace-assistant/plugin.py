@@ -121,18 +121,27 @@ def run(bk):
     print('===================================================\n\n')
     breakdown_text = ""
     for word in sorted(result_dicts):
-        print("%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word]))
-        print('===================================================')
-        breakdown_text += '\n===================================================\n'
-        breakdown_text += "%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word])
-        breakdown_text += '\n===================================================\n'
-        for pattern in sorted(result_dicts[word]):
-            # line = "Found %s as pattern %s in %s ." % (pattern, word, result_dicts[word][pattern])
-            line = pattern
-            breakdown_text += pattern + '\n'
-            print(line)
-            # breakdown_text += line + "\n"
-        print('===================================================')
+        if (len(result_dicts[word]) > 0) :
+            print("%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word]))
+            print('===================================================')
+            breakdown_text += '\n===================================================\n'
+            breakdown_text += "%s Distinct (%s) Total (%s) " % (word, len(result_dicts[word]), word_dicts[word])
+            breakdown_text += '\n===================================================\n'
+            for pattern in sorted(result_dicts[word]):
+                # line = "Found %s as pattern %s in %s ." % (pattern, word, result_dicts[word][pattern])
+                line = pattern
+                breakdown_text += pattern + '\n'
+                print(line)
+                # breakdown_text += line + "\n"
+            print('===================================================')
+        else:
+            breakdown_text += '\n===================================================\n'
+            breakdown_text += "%s Not Found " % word
+            breakdown_text += '\n===================================================\n'
+            print("%s Not Found " % word)
+            print('===================================================')
+
+
     print('\n            Done. Copy as you need\n')
     print('===================================================\n\n')
     breakdown_text += '\n===================================================\n'
