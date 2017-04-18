@@ -22,6 +22,6 @@ do
   #ymd=$(date -r ${plugin_name}/plugin.py +%Y%m%d)
   ymd=$(awk "/<version>(.*)<\/version>/{ print  substr(\$1,10,8) }" ${plugin_name}/plugin.xml)
   # rm ${plugin_name}_v*.zip
-  sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ${plugin_name}/plugin.xml
+  # sed -i "" "s/^<version.*$/<version>${ymd}<\/version>/" ${plugin_name}/plugin.xml
   zip -r ${plugin_name}_v${ymd}.zip ${plugin_name}/*
 done
