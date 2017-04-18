@@ -163,7 +163,7 @@ def run(bk):
         text += '\n\n===================================================\n\n'
         body = ('<abbr title="Tab Seperated Version">TSV</abbr>'
         '(Tab Seperated Version) as text file '
-        '<a href="Misc/_eyeball-replace-assistant.tsv.txt">'
+        '<a href="Misc/_eyeball-replace-assistant.tsv.txt"> '
         'Misc/_eyeball-replace-assistant.tsv.txt</a> <br/><hr/>')
         body += ('Breakdown'
         '<a href="Misc/_eyeball-replace-assistant.txt">'

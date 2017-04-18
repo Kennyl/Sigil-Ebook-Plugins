@@ -7,4 +7,6 @@
 <engine>python3.4</engine>
 <version>20170418</version>
 <oslist>osx,unx,win</oslist>
+<autostart>true</autostart>
+<autoclose>false</autoclose>
 </plugin>
