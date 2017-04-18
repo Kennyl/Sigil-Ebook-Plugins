@@ -52,6 +52,7 @@ class askSetting(QWidget):
 
       self.btn = QPushButton('OK', self)
       self.btn.clicked.connect(lambda:(self.bye(items)))
+      self.btn.setFocusPolicy(Qt.StrongFocus)
 
       layout.addWidget(self.btn)
 

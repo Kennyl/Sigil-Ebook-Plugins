@@ -8,7 +8,7 @@ import html
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
     QInputDialog, QApplication, QHBoxLayout, QVBoxLayout, QCheckBox)
 
-import PyQt5.QtCore
+from PyQt5.QtCore import Qt
 
 lineEditPrompt = "String to Find (seperated in Spacebar)"
 defaultInput =  "幹 乾 干 髮 里 裡 衝 沖 制 製 準"
@@ -42,6 +42,7 @@ class askSetting(QWidget):
 
       self.btn = QPushButton('OK', self)
       self.btn.clicked.connect(lambda:(self.bye(items)))
+      self.btn.setFocusPolicy(Qt.StrongFocus)
 
       layout.addWidget(self.btn)
 
