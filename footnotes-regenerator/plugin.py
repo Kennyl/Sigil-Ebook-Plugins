@@ -21,8 +21,6 @@ def runLXML(bk):
     #old
     # noteref_re = r'[^>](\[\d+\])'
     # footnote_re = r'^(\[[]\d+\])'
-    previewConstant = 10
-    lastid = 0
     nref_id = 0
     fn_id = 0
     modified = False
@@ -100,7 +98,6 @@ def runLXML(bk):
                              encoding="utf-8",
                              xml_declaration=True).decode('utf8'))
         modified = False
-        lastid = file_id
 #css
     if nref_id > 0:
         if useNumberOrderingInsteadOfIdeograph:

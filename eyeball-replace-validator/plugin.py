@@ -6,7 +6,8 @@ import re
 import html
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
-    QInputDialog, QApplication, QHBoxLayout, QVBoxLayout, QCheckBox)
+                             QApplication, QHBoxLayout, QVBoxLayout,
+                             QCheckBox)
 
 from PyQt5.QtCore import Qt
 
@@ -65,7 +66,7 @@ def run(bk):
     if sys.platform == "darwin":
         print("Plugin using PyQt5, bundled Python may not work")
 
-    items = {lineEditPrompt:defaultInput}
+    items = {lineEditPrompt: defaultInput}
 
     app = QApplication(sys.argv)
     ask = askSetting(app=app, items=items)

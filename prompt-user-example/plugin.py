@@ -29,7 +29,7 @@ class askSetting(QWidget):
       self.lineedits = {}
 
       for key in items.keys():
-        if type(items[key]) == bool :
+        if isinstance(items[key], bool):
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
             self.buttons[key].setFocusPolicy(Qt.StrongFocus)

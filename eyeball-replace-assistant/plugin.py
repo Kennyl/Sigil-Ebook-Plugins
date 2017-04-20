@@ -37,7 +37,7 @@ class askSetting(QWidget):
       self.lineedits = {}
 
       for key in items.keys():
-        if type(items[key]) is bool:
+        if isinstance(items[key], bool):
             self.buttons[key] = QCheckBox(key)
             self.buttons[key].setChecked(items[key])
             self.buttons[key].setFocusPolicy(Qt.StrongFocus)
@@ -111,7 +111,7 @@ def run(bk):
                     result_dicts[word][match.group(0)].append(href)
                 else:
                     result_dicts[word][match.group(0)] = [href]
-                row = html_original[:match.start()].count('\n')+1
+                row = html_original[:match.start()].count('\n') + 1
                 column = match.start() - html_original[:match.start()].rfind('\n')
                 pattern = match.group(0)
                 print('%s\t%s\t%s\t%s\t%s'
@@ -156,10 +156,10 @@ def run(bk):
             for pattern in result_dicts[word]:
                 for href in result_dicts[word][pattern]:
                     if href not in reversed_dicts:
-                        reversed_dicts[href]={word:[pattern]}
+                        reversed_dicts[href] = {word: [pattern]}
                     else:
                         if word not in reversed_dicts:
-                            reversed_dicts[href][word]=[pattern]
+                            reversed_dicts[href][word] = [pattern]
                         else:
                             reversed_dicts[href][word].append(pattern)
 
@@ -189,7 +189,7 @@ def run(bk):
             print('===================================')
             # bk.addotherfile('eyeball-replace-assistant.txt',text)
             bk.addotherfile('_eyeball-replace-assistant.html',
-                            '<html><body>'+body+'</body></html>')
+                            '<html><body>' + body + '</body></html>')
             bk.addotherfile('_eyeball-replace-assistant.tsv.txt',
                             tsv)
             bk.addotherfile('_eyeball-replace-assistant.txt',
