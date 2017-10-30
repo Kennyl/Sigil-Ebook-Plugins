@@ -44,12 +44,17 @@ Cross Reference for selected files in Book Browser
 Default settings:
 
 File to change: zh ie. \*.zh.{any_extension} 
+
 File to be referenced: en ie. \*.en.{any_extension}
  
 Changing file
+
 From selected files
+
   \*.zh.html or \*.zh.{any_extension} 
+
 to 
+
   \*.en.html or \*.en.{any_extension}
 
 
