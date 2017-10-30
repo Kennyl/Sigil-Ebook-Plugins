@@ -147,10 +147,22 @@ function speak(text, callback) {
       t.lang = tts_lang;
       t.pitch = tts_pitch;
       t.rate = tts_rate;
+      msg = t;
+      msg.onstart = function (event) {
+        //console.log("started");
+        emoji = String.fromCharCode(9199);
+        document.getElementById('tts').innerHTML = '  ' + emoji;
+
+      };
+      msg.onend = function(event) {
+        //console.log('Finished in ' + event.elapsedTime + ' seconds.');
+        emoji = String.fromCharCode(9209)'
+        document.getElementById('tts').innerHTML = '  ' + emoji;
+      };
       speechSynthesis.speak(t);
     });
   emoji = String.fromCharCode(9199);
-  document.getElementById('tts').innerHTML =  '  ' + emoji;
+  document.getElementById('tts').innerHTML = '  ' + emoji;
   document.getElementById('tts').removeEventListener('click', speak);
   document.getElementById('tts').addEventListener('click', p);
 }
