@@ -1,66 +1,64 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-# from __future__ import unicode_literals, division, absolute_import, print_function
 import sys
 import re
 import html
 
 from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
-                             QApplication, QHBoxLayout, QVBoxLayout,
-                             QCheckBox)
+                             QApplication, QVBoxLayout)
 
 from PyQt5.QtCore import Qt
 
 lineEditPrompt = "String to Find (seperated in Spacebar)"
-defaultInput =  "幹 乾 干 髮 里 裡 衝 沖 制 製 準"
+defaultInput = "幹 乾 干 髮 里 裡 衝 沖 制 製 準"
 regexpCondition = r'.{0,3}'
+
 
 class askSetting(QWidget):
 
+    def __init__(self,
+                 app=None,
+                 parent=None,
+                 items=None):
 
-   def __init__(self,
-                app = None,
-                parent = None,
-                items = None):
+        super(askSetting, self).__init__(parent)
 
-      super(askSetting, self).__init__(parent)
+        self.app = app
+        self.items = items
 
-      self.app = app
-      self.items = items
+        layout = QVBoxLayout()
 
-      layout = QVBoxLayout()
+      #   self.buttons = {}
+        self.lineedits = {}
 
-    #   self.buttons = {}
-      self.lineedits = {}
+        for key in items.keys():
+            layout.addWidget(QLabel(key))
+            self.lineedits[key] = QLineEdit()
+            self.lineedits[key].setText(items[key])
+            # enable ime input
+            self.lineedits[key].inputMethodQuery(Qt.ImEnabled)
+            layout.addWidget(self.lineedits[key])
 
-      for key in items.keys():
-        layout.addWidget(QLabel(key))
-        self.lineedits[key] = QLineEdit()
-        self.lineedits[key].setText(items[key])
-        # enable ime input
-        self.lineedits[key].inputMethodQuery(Qt.ImEnabled)
-        layout.addWidget(self.lineedits[key])
+        self.btn = QPushButton('OK', self)
+        self.btn.clicked.connect(lambda: (self.bye(items)))
+        self.btn.setFocusPolicy(Qt.StrongFocus)
 
-      self.btn = QPushButton('OK', self)
-      self.btn.clicked.connect(lambda:(self.bye(items)))
-      self.btn.setFocusPolicy(Qt.StrongFocus)
+        layout.addWidget(self.btn)
 
-      layout.addWidget(self.btn)
+        self.setLayout(layout)
+        self.setWindowTitle(' Setting ')
 
-      self.setLayout(layout)
-      self.setWindowTitle(' Setting ')
+    def bye(self, items):
+        for key in self.lineedits.keys():
+            self.items[key] = self.lineedits[key].text()
+      #    for key in self.buttons.keys():
+      #        self.items[key] = self.buttons[key].isChecked()
+        self.close()
+        self.app.exit(1)
 
+    # def btnstate(self,key):
+    #     self.items[key] = self.buttons[key].isChecked()
 
-   def bye(self, items):
-       for key in self.lineedits.keys():
-           self.items[key] = self.lineedits[key].text()
-    #    for key in self.buttons.keys():
-    #        self.items[key] = self.buttons[key].isChecked()
-       self.close()
-       self.app.exit(1)
-
-   # def btnstate(self,key):
-   #     self.items[key] = self.buttons[key].isChecked()
 
 def run(bk):
     if sys.platform == "darwin":
@@ -72,13 +70,13 @@ def run(bk):
     ask = askSetting(app=app, items=items)
     ask.show()
     rtnCode = app.exec_()
-    #If press OK button  rtnCode should be 1
-    if rtnCode != 1 :
+    # If press OK button  rtnCode should be 1
+    if rtnCode != 1:
         print('User abort by closing Setting dialog')
         return -1
 
     print(items)
-    #selected file in file list
+    # selected file in file list
     searching_words = items[lineEditPrompt].split(' ')
     result_dicts = {}
     for word in searching_words:
@@ -110,7 +108,8 @@ def run(bk):
                               row,
                               message)
                 # bk.add_extended_result(bk.TYPE_INFO, bk.href_to_basename(href), row, column, message)
-                # extended result will not scroll to row use add_result instead.
+                # extended result will not scroll to row use add_result
+                # instead.
     return 0
 
 

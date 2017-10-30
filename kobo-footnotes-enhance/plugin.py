@@ -3,17 +3,16 @@
 import sys
 import re
 from lxml import etree, html
-
-
-'''
-this plugin will link (校記1）<-> section ■校記 of 1
-and （注釋2）<-> section ■注釋 of 2
-'''
+# '''
+# this plugin will link (校記1）<-> section ■校記 of 1
+# and （注釋2）<-> section ■注釋 of 2
+# '''
 
 
 def run(bk):
     modified = False
-# all xhtml/html files - moves found notes to end of file, insert a link in the text and link to css in the files with notes
+# all xhtml/html files - moves found notes to end of file, insert a link
+# in the text and link to css in the files with notes
     step = 1  # 1 for footnote #2 For 校記 #3 for noteref
     for (file_id, href) in bk.text_iter():
         step = 1
@@ -36,10 +35,22 @@ def run(bk):
                 step = 3
             if step == 1:
                 original = innerText
-                innerText = re.sub(r'（校記(\d+)）', r'<a class="duokan-footnote footnote2" href="#fx\1"  id="fxref\1">\1</a>', innerText)
-                innerText = re.sub(r'（校注(\d+)）', r'<a class="duokan-footnote footnote2" href="#fx\1"  id="fxref\1">\1</a>', innerText)
-                innerText = re.sub(r'（注釋(\d+)）', r'<a class="duokan-footnote footnote1" href="#fn\1"  id="fnref\1">\1</a>', innerText)
-                innerText = re.sub(r'（註釋(\d+)）', r'<a class="duokan-footnote footnote1" href="#fn\1"  id="fnref\1">\1</a>', innerText)
+                innerText = re.sub(
+                    r'（校記(\d+)）',
+                    r'<a class="duokan-footnote footnote2" href="#fx\1"  id="fxref\1">\1</a>',
+                    innerText)
+                innerText = re.sub(
+                    r'（校注(\d+)）',
+                    r'<a class="duokan-footnote footnote2" href="#fx\1"  id="fxref\1">\1</a>',
+                    innerText)
+                innerText = re.sub(
+                    r'（注釋(\d+)）',
+                    r'<a class="duokan-footnote footnote1" href="#fn\1"  id="fnref\1">\1</a>',
+                    innerText)
+                innerText = re.sub(
+                    r'（註釋(\d+)）',
+                    r'<a class="duokan-footnote footnote1" href="#fn\1"  id="fnref\1">\1</a>',
+                    innerText)
                 if original != innerText:
                     modified = True
                     # print(innerText)
@@ -47,13 +58,19 @@ def run(bk):
             if step == 2:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)', r'<a class="duokan-footnote-item footnote-item2" href="#fxref\1"  id="fx\1">\1</a>', innerText)
+                    innerText = re.sub(
+                        r'^(\d+)',
+                        r'<a class="duokan-footnote-item footnote-item2" href="#fxref\1"  id="fx\1">\1</a>',
+                        innerText)
                     # print("校記", innerText)
                     e.getparent().replace(e, etree.XML("<" + e.tag + ">" + innerText + "</" + e.tag + ">"))
             if step == 3:
                 match = re.search("^(\d+)", innerText)
                 if match is not None:
-                    innerText = re.sub(r'^(\d+)', r'<a class="duokan-footnote-item footnote-item1" href="#fnref\1"  id="fn\1">\1</a>', innerText)
+                    innerText = re.sub(
+                        r'^(\d+)',
+                        r'<a class="duokan-footnote-item footnote-item1" href="#fnref\1"  id="fn\1">\1</a>',
+                        innerText)
                     # print("注釋 ", innerText)
                     e.getparent().replace(e, etree.XML("<" + e.tag + ">" + innerText + "</" + e.tag + ">"))
         # for a in doc.xpath("//*[contains(@class, 'duokan-footnote footnote1')]"):
@@ -67,7 +84,8 @@ def run(bk):
             link.attrib['rel'] = "stylesheet"
             link.attrib['type'] = "text/css"
             head.append(link)
-            bk.writefile(file_id, etree.tostring(doc, xml_declaration=True, encoding="utf-8"))
+            bk.writefile(file_id, etree.tostring(
+                doc, xml_declaration=True, encoding="utf-8"))
 
     cssdata = '''
 a.duokan-footnote-item{

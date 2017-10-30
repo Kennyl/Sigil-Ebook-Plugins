@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-
 import sys
 from lxml import etree, html
 
@@ -72,10 +71,10 @@ def runLXML(bk):
              lineEditPrompt3: defaultInput3}
 
     count = 0
-    for (a, b) in bk.selected_iter():
+    for (_, file_id) in bk.selected_iter():
         global filelist
         count += 1
-        filelist += "\n" + b
+        filelist += "\n" + file_id
     if count == 0:
         filelist += "Please select file(s) first!!"
         print("Please select file(s) first!!")
@@ -114,7 +113,7 @@ def runLXML(bk):
         modified = True
 # js
     if modified:
-        jsdata = ""
+        jsdata = "\n"
         jsdata += "var tts_content_tag_id = '"+tts_content_tag_id+"';\n"
         jsdata += "var tts_lang = '"+tts_lang+"';\n"
         jsdata += "var tts_icon_in_tagname = '"+tts_icon_in_tagname+"';\n"

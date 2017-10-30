@@ -5,7 +5,7 @@
 <author>Nobody</author>
 <description>Find selected terms for futher eyeball check</description>
 <engine>python3.4</engine>
-<version>20170420</version>
+<version>20171030</version>
 <oslist>osx,unx,win</oslist>
 <autostart>true</autostart>
 <autoclose>false</autoclose>

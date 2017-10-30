@@ -108,7 +108,7 @@ def run(bk):
     refer_lang = items[lineEditPrompt2]
 
     # for (file_id, href) in bk.text_iter():
-    for (id_type, file_id) in bk.selected_iter():
+    for (_, file_id) in bk.selected_iter():
         href = bk.id_to_href(file_id)
         hrefsplit = href.split(".")
         if hrefsplit[-2] == replace_lang:
