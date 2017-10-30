@@ -30,11 +30,12 @@ Add tts engine to selected files in Book Browser
 
 Default settings:
 
-1. Language to be process default Yue ie. zh-HK
+1. Language to be process, default is Yue    ie. zh-HK
 
-2. TTS innerText of Element ID   ie. <? id=content></content> 
+2. TTS innerText of Element ID   ie. &gt;? id=content&lt;
 ```getElementByID("content").innerText```
-3. TTS icon "🗣 " add to Tag Name ie. h1
+
+3. TTS icon "🗣 " add to Tag Name    ie. &gt;h1&lt;
 ```<h1>Heading 1 🗣 </h1>```
 
 Make Plugin for Sigil
@@ -46,19 +47,19 @@ zip add-tts-engine.zip add-tts-engine/plugin.py add-tts-engine/plugin.xml
 
 Cross Reference for selected files in Book Browser
 
-Default settings:
+*Default settings:*
 
-File to change: zh ie. \*.zh.{any_extension} 
+    File to change: zh ie. \*.zh.{any_extension} 
 
-File to be referenced: en ie. \*.en.{any_extension}
+    File to be referenced: en ie. \*.en.{any_extension}
 
-From selected files (files will be change)
+*From selected files (files will be change)*
 
-  \*.zh.html or \*.zh.{any_extension} 
+    \*.zh.html or \*.zh.{any_extension} 
 
-reference to (files will not change just reference)
+*Reference to (files will not change just reference)*
 
-  \*.en.html or \*.en.{any_extension}
+    \*.en.html or \*.en.{any_extension}
 
 Make Plugin for Sigil
 ```
