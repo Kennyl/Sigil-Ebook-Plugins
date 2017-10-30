@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
-# from __future__ import unicode_literals, division, absolute_import,
-# print_function
 import copy
 from functools import reduce
 from lxml import etree, html
@@ -9,10 +7,8 @@ import sys
 
 from PyQt5.QtWidgets import (QDialog, QPushButton, QLineEdit,
                              QLabel, QApplication, QVBoxLayout)
-# QCheckBox)
 
 from PyQt5.QtCore import Qt
-
 
 lineEditPrompt1 = 'Language to be process i.e. "zh" in (chapter1.zh.html)'
 defaultInput1 = "zh"
@@ -51,7 +47,6 @@ class askSetting(QDialog):
 
         layout = QVBoxLayout()
 
-      #   self.buttons = {}
         self.lineedits = {}
         global filelist
         layout.addWidget(QLabel(filelist))
@@ -77,13 +72,8 @@ class askSetting(QDialog):
     def bye(self, items):
         for key in self.lineedits.keys():
             self.items[key] = self.lineedits[key].text()
-      #    for key in self.buttons.keys():
-      #        self.items[key] = self.buttons[key].isChecked()
         self.close()
         self.app.exit(1)
-
-    # def btnstate(self,key):
-    #     self.items[key] = self.buttons[key].isChecked()
 
 
 def run(bk):
@@ -99,6 +89,8 @@ def run(bk):
         filelist += "\n" + b
     if count == 0:
         filelist += "Please select file(s) first!!"
+        print("Please select file(s) first!!")
+        return -1
     filelist += "\n"
 
     app = QApplication(sys.argv)
