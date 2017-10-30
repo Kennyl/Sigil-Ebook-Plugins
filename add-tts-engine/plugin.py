@@ -9,11 +9,11 @@ from PyQt5.QtWidgets import (QDialog, QPushButton, QLineEdit,
 from PyQt5.QtCore import Qt
 
 
-lineEditPrompt1 = 'Language to be process i.e. "zh-HK" is Yue'
+lineEditPrompt1 = 'Language to be process. ie. "zh-HK" is Yue.'
 defaultInput1 = "zh-HK"
-lineEditPrompt2 = 'TTS innerText of Element ID  '
-defaultInput2 = "content"
-lineEditPrompt3 = 'TTS icon add to Tag Name '
+lineEditPrompt2 = 'TTS innerText of Tag. ie. body for Body Tag'
+defaultInput2 = "body"
+lineEditPrompt3 = 'TTS icon add to Tag Name. ie. h1 for Heading1'
 defaultInput3 = "h1"
 
 filelist = "Selected file in Book Browser:\n"
@@ -91,7 +91,7 @@ def runLXML(bk):
         return -1
 
     tts_lang = items[lineEditPrompt1]
-    tts_content_tag_id = items[lineEditPrompt2]
+    tts_content_tagname = items[lineEditPrompt2]
     tts_icon_in_tagname = items[lineEditPrompt3]
 
     modified = False
@@ -114,7 +114,7 @@ def runLXML(bk):
 # js
     if modified:
         jsdata = "\n"
-        jsdata += "var tts_content_tag_id = '"+tts_content_tag_id+"';\n"
+        jsdata += "var tts_content_tag_name = '"+tts_content_tagname+"';\n"
         jsdata += "var tts_lang = '"+tts_lang+"';\n"
         jsdata += "var tts_icon_in_tagname = '"+tts_icon_in_tagname+"';\n"
         jsdata += '''
@@ -139,7 +139,12 @@ function r(){
     document.getElementById('tts').addEventListener('click', p);
 }
 function speak(text, callback) {
-    text = document.getElementById(tts_content_tag_id).innerText;
+    tags = document.getElementsByTagName(tts_content_tag_name)
+    var i = 0;
+    text = tags[i].innerText;
+    for(i=1; i<tags.length; i++){
+      text += tags[i].innerText;
+    };
     matches = text.match(/.{1,30000}/mg);
     matches.forEach(function(e){
       var t = new SpeechSynthesisUtterance(e);

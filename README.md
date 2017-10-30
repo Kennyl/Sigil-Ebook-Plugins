@@ -32,8 +32,8 @@ Default settings:
 
 1. Language to be process, default is Yue    ie. zh-HK
 
-2. TTS innerText of Element ID   ie. &lt;? id=content&gt;
-```getElementByID("content").innerText```
+2. TTS innerText of Tag Name   ie. &lt;body&gt; tag
+```getElementsByTagName("body")```
 
 3. TTS icon "🗣 " add to Tag Name    ie. &lt;h1&gt;
 ```<h1>Heading 1 🗣 </h1>```
