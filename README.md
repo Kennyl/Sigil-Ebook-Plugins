@@ -34,7 +34,7 @@ Default settings:
 
 2. TTS innerText of Element ID   ie. <? id=content></content> 
 ```getElementByID("content").innerText```
-3. TTS icon "🗣 " add to Tag Name ie. <h1>
+3. TTS icon "🗣 " add to Tag Name ie. h1
 ```<h1>Heading 1 🗣 </h1>```
 
 ## cross-reference-lang
