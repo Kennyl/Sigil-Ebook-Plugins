@@ -14,11 +14,12 @@ Note Reference [^1]
 
 '''
 
+
 def runLXML(bk):
     useNumberOrderingInsteadOfIdeograph = True
     noteref_re = r'([^>])(\[\^\d+\])([^:])'
     footnote_re = r'^(\[[\^]\d+\]):'
-    #old
+    # old
     # noteref_re = r'[^>](\[\d+\])'
     # footnote_re = r'^(\[[]\d+\])'
     nref_id = 0
@@ -45,7 +46,9 @@ def runLXML(bk):
                 modified = True
                 nref_id += 1
                 innerText = re.sub(noteref_re,
-                                   r'\1<a class="duokan-footnote" href="#fn'+str(nref_id)+r'" id="fnref'+str(nref_id)+r'"></a>\3',
+                                   r'\1<a class="duokan-footnote" href="#fn' +
+                                   str(nref_id)+r'" id="fnref' +
+                                   str(nref_id)+r'"></a>\3',
                                    innerText,
                                    1)
                 # if useNumberOrderingInsteadOfIdeograph:
@@ -58,7 +61,8 @@ def runLXML(bk):
                                           innerText)
 
             if elem.text != innerText:
-                elem.getparent().replace(elem,etree.XML("<"+elem.tag+">"+innerText+"</"+elem.tag+">"))
+                elem.getparent().replace(elem, etree.XML(
+                    "<"+elem.tag+">"+innerText+"</"+elem.tag+">"))
 
             found_footnote = re.search(footnote_re, innerText)
             if found_footnote is not None:
@@ -67,9 +71,9 @@ def runLXML(bk):
                 aside = etree.SubElement(ol,
                                          "aside",
                                          attrib={"epub:type": "footnote"})
-                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id)+
-                                '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id)+
-                                '"></a> '+innerText[found_footnote.end():]+
+                xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id) +
+                                '">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id) +
+                                '"></a> '+innerText[found_footnote.end():] +
                                 '<a href="'+str(id)+'#fnref'+str(fn_id)+'"></a></p>\n</li>')
                 # if useNumberOrderingInsteadOfIdeograph:
                 #     xml = etree.XML('<li class="duokan-footnote-item" id="fn'+str(fn_id)+'">\n<p class="fn"><a href="'+str(id)+'#fnref'+str(fn_id)+
@@ -79,9 +83,9 @@ def runLXML(bk):
                 #                     '">原文</a>：'+innerText[found_footnote.end():]+'&#8203;​​​​​​​​</p>\n</li>')
                 aside.append(xml)
                 elem.getparent().remove(elem)
-#add back epub:type avoid mulitple namespace in XML create
-        for a in  elem.xpath("//*[contains(@class, 'duokan-footnote')]"):
-            a.attrib['epub:type']= "noteref"
+# add back epub:type avoid mulitple namespace in XML create
+        for a in elem.xpath("//*[contains(@class, 'duokan-footnote')]"):
+            a.attrib['epub:type'] = "noteref"
 
         if modified:
             # head = doc.xpath("//*[local-name() = 'head']")[0]
@@ -91,14 +95,14 @@ def runLXML(bk):
                              attrib={'href': "../Styles/footnote.css",
                                      'rel': "stylesheet",
                                      'type': "text/css"
-                                    })
+                                     })
             bk.writefile(file_id,
                          etree.tostring(
                              doc,
                              encoding="utf-8",
                              xml_declaration=True).decode('utf8'))
         modified = False
-#css
+# css
     if nref_id > 0:
         if useNumberOrderingInsteadOfIdeograph:
             cssdata = '''
@@ -232,6 +236,7 @@ li {
         mime = "text/css"
         bk.addfile(uid, basename, cssdata, mime)
     return 0
+
 
 def run(bk):
     return runLXML(bk)
