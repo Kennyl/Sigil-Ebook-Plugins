@@ -32,10 +32,10 @@ Default settings:
 
 1. Language to be process, default is Yue    ie. zh-HK
 
-2. TTS innerText of Element ID   ie. &gt;? id=content&lt;
+2. TTS innerText of Element ID   ie. &lt;? id=content&gt;
 ```getElementByID("content").innerText```
 
-3. TTS icon "🗣 " add to Tag Name    ie. &gt;h1&lt;
+3. TTS icon "🗣 " add to Tag Name    ie. &lt;h1&gt;
 ```<h1>Heading 1 🗣 </h1>```
 
 Make Plugin for Sigil
