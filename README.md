@@ -39,7 +39,7 @@ Default settings:
 
 Make Plugin for Sigil
 ```
-zip add-tts-engine.zip add-tts-engine/plugin.py cross-reference-lang/plugin.xml
+zip add-tts-engine.zip add-tts-engine/plugin.py add-tts-engine/plugin.xml
 ```
 
 ## cross-reference-lang
