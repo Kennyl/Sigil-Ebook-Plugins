@@ -37,6 +37,11 @@ Default settings:
 3. TTS icon "🗣 " add to Tag Name ie. h1
 ```<h1>Heading 1 🗣 </h1>```
 
+Make Plugin for Sigil
+```
+zip add-tts-engine.zip add-tts-engine/plugin.py cross-reference-lang/plugin.xml
+```
+
 ## cross-reference-lang
 
 Cross Reference for selected files in Book Browser
@@ -46,17 +51,19 @@ Default settings:
 File to change: zh ie. \*.zh.{any_extension} 
 
 File to be referenced: en ie. \*.en.{any_extension}
- 
-Changing file
 
-From selected files
+From selected files (files will be change)
 
   \*.zh.html or \*.zh.{any_extension} 
 
-to 
+reference to (files will not change just reference)
 
   \*.en.html or \*.en.{any_extension}
 
+Make Plugin for Sigil
+```
+zip cross-reference-lang.zip cross-reference-lang/plugin.py cross-reference-lang/plugin.xml
+```
 
 ## eyeball-replace-assistant
 
@@ -66,6 +73,7 @@ Search input terms seperated by Spacebar (```term1  term2 term3```) using follow
 
 and place result in  Text/\_eyeball-replace-assistant\*.html
 
+Make Plugin for Sigil
 ```
 zip eyeball-replace-assistant.zip eyeball-replace-assistant/p*
 ```
