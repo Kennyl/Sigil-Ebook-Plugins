@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+<name>cross-reference-lang</name>
+<type>edit</type>
+<author>Nobody</author>
+<description>Cross Reference Language between Files in (*.{lang_code}.xhtml)'s P Tag</description>
+<engine>python3.4</engine>
+<version>20170420</version>
+<oslist>osx,unx,win</oslist>
+<autostart>true</autostart>
+<autoclose>true</autoclose>
+</plugin>
