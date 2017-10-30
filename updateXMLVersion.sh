@@ -5,6 +5,8 @@
 ## * because we ignore .git those hidden folder
 #find . -not -name ".*" -type d  -maxdepth 1 -print -exec zip -r {}_v${ymd}.zip {} \;
 plugins=( \
+"add-tts-engine" \
+"cross-reference-lang"	\
 "footnotes-regenerator" \
 "full-width-digit" \
 "full-width-punctuation" \

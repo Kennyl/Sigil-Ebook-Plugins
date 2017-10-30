@@ -6,7 +6,7 @@
 <description>Add TTS Engine for Sigil</description>
 <engine>python2.7</engine>
 <engine>python3.4</engine>
-<version>20170420</version>
+<version>20171030</version>
 <oslist>osx,unx,win</oslist>
 <autostart>true</autostart>
 </plugin>
