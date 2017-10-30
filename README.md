@@ -4,6 +4,8 @@
 
 Various Plugins for [Sigil-Ebook](https://github.com/Sigil-Ebook/Sigil)
 
+- [add-tts-engine](#add-tts-engine)
+- [cross-reference-lang](#cross-reference-lang)
 - [eyeball-replace-assistant](#eyeball-replace-assistant)
 - [eyeball-replace-validator](#eyeball-replace-validator)
 - [footnotes-regenerator](#footnotes-regenerator)
@@ -22,13 +24,42 @@ For example making footnotes-regenerator plugin
 zip footnotes-regenerator.zip footnotes-regenerator/p*
 ```
 
+## add-tts-engine
+
+Add tts engine to selected files in Book Browser
+
+Default settings:
+
+1. Language to be process default Yue ie. zh-HK
+
+2. TTS innerText of Element ID   ie. <? id=content></content> 
+```getElementByID("content").innerText```
+3. TTS icon "🗣 " add to Tag Name ie. <h1>
+```<h1>Heading 1 🗣 </h1>```
+
+## cross-reference-lang
+
+Cross Reference for selected files in Book Browser
+
+Default settings:
+
+File to change: zh ie. \*.zh.{any_extension} 
+File to be referenced: en ie. \*.en.{any_extension}
+ 
+Changing file
+From selected files
+  \*.zh.html or \*.zh.{any_extension} 
+to 
+  \*.en.html or \*.en.{any_extension}
+
+
 ## eyeball-replace-assistant
 
 Search input terms seperated by Spacebar (```term1  term2 term3```) using following regexp
 
 .?.?.?term1.?.?.?
 
-and place result in  Text/\_eyeball-replace-assistant*.html
+and place result in  Text/\_eyeball-replace-assistant\*.html
 
 ```
 zip eyeball-replace-assistant.zip eyeball-replace-assistant/p*
