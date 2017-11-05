@@ -11,10 +11,16 @@ from PyQt5.QtCore import Qt
 
 lineEditPrompt1 = 'Language to be process. ie. "zh-HK" is Yue.'
 defaultInput1 = "zh-HK"
-lineEditPrompt2 = 'TTS innerText of Tag. ie. body for Body Tag'
-defaultInput2 = "body"
+lineEditPrompt2 = 'TTS innerText of Tag. ie. p for Paragraph Tag'
+defaultInput2 = "p"
 lineEditPrompt3 = 'TTS icon add to Tag Name. ie. h1 for Heading1'
 defaultInput3 = "h1"
+lineEditPrompt4 = 'Text Style when Tag is speaking. ie. style="text-decoration:underline"'
+defaultInput4 = "text-decoration:underline"
+lineEditPrompt5 = 'TTS Pitch. ie. 0.7"'
+defaultInput5 = "0.7"
+lineEditPrompt6 = 'TTS Speed Rate. ie. 1.1'
+defaultInput6 = "1.1"
 
 filelist = "Selected file in Book Browser:\n"
 
@@ -68,7 +74,10 @@ def runLXML(bk):
 
     items = {lineEditPrompt1: defaultInput1,
              lineEditPrompt2: defaultInput2,
-             lineEditPrompt3: defaultInput3}
+             lineEditPrompt3: defaultInput3,
+             lineEditPrompt4: defaultInput4,
+             lineEditPrompt5: defaultInput5,
+             lineEditPrompt6: defaultInput6}
 
     count = 0
     for (_, file_id) in bk.selected_iter():
@@ -93,6 +102,9 @@ def runLXML(bk):
     tts_lang = items[lineEditPrompt1]
     tts_content_tagname = items[lineEditPrompt2]
     tts_icon_in_tagname = items[lineEditPrompt3]
+    tts_on_focus_style = items[lineEditPrompt4]
+    tts_pitch = items[lineEditPrompt5]
+    tts_rate = items[lineEditPrompt6]
 
     modified = False
 
@@ -111,72 +123,104 @@ def runLXML(bk):
                          encoding="utf-8",
                          xml_declaration=True).decode('utf8'))
         modified = True
+
+    if bk.id_to_href("tts."+tts_lang) is not None:
+        print("TTS javascript file is existed.")
+        return 0
+    else:
+        print("TTS javascript file is added.")
 # js
     if modified:
         jsdata = "\n"
         jsdata += "var tts_content_tag_name = '"+tts_content_tagname+"';\n"
         jsdata += "var tts_lang = '"+tts_lang+"';\n"
         jsdata += "var tts_icon_in_tagname = '"+tts_icon_in_tagname+"';\n"
+        jsdata += "var tts_on_focus_style = '"+tts_on_focus_style+"';\n"
+        jsdata += "var tts_pitch = '"+tts_pitch+"';\n"
+        jsdata += "var tts_rate = '"+tts_rate+"';\n"
         jsdata += '''
-var tts_pitch = 0.7;
-var tts_rate = 1.1;
+  var tts_out_focus_style = "";
+  var emojiPlayPaused = String.fromCharCode(9199);
+  var emojiStop = String.fromCharCode(9209);
+  var emojiSpeak = String.fromCharCode(55357, 56803);
+  var tags;
+  var i;
+  var utterances=[];
 
-var tts = function() {
-    a = document.createElement('a');
-    a.id = 'tts';
-    a.innerText = '  ' + String.fromCharCode(55357, 56803);
-    document.getElementsByTagName(tts_icon_in_tagname)[0].appendChild(a);
-    document.getElementById('tts').addEventListener('click', speak);
-}
-function p(){
-    speechSynthesis.pause();
-    document.getElementById('tts').removeEventListener('click', p);
-    document.getElementById('tts').addEventListener('click', r);
-}
-function r(){
-    speechSynthesis.resume();
-    document.getElementById('tts').removeEventListener('click', r);
-    document.getElementById('tts').addEventListener('click', p);
-}
-function speak(text, callback) {
+  var tts = function() {
+      a = document.createElement('a');
+      a.id = 'tts';
+      a.innerText = '  ' + emojiSpeak;
+      document.getElementsByTagName(tts_icon_in_tagname)[0].appendChild(a);
+      document.getElementById('tts').addEventListener('click', speak);
+  }
+  function p(){
+      speechSynthesis.pause();
+      document.getElementById('tts').removeEventListener('click', p);
+      document.getElementById('tts').addEventListener('click', r);
+  }
+  function r(){
+      speechSynthesis.resume();
+      document.getElementById('tts').removeEventListener('click', r);
+      document.getElementById('tts').addEventListener('click', p);
+  }
+
+  fn_onstart = function (event) {
+    tts_out_focus_style = tags[i].getAttribute('style');
+    if (!tts_out_focus_style){
+      tts_out_focus_style = "";
+    }
+    tags[i].setAttribute('style', tts_out_focus_style+";"+tts_on_focus_style);
+    tags[i].scrollIntoView();
+    console.log("started");
+    document.getElementById('tts').innerHTML =  '  ' + emojiPlayPaused;
+  };
+
+  fn_onend = function(event) {
+    if (!tts_out_focus_style){
+      tags[i].removeAttribute('style');
+    }else{
+      tags[i].setAttribute('style',tts_out_focus_style);
+    }
+    i++;
+    if(i < tags.length){
+      console.log('Speak Next :' + i );
+    }else{
+      i = 0 ; //end of utterances
+    }
+    console.log('Finished in ' + event.elapsedTime + ' seconds.');
+    document.getElementById('tts').innerHTML =  '  ' + emojiStop;
+  };
+
+  function speak(text, callback) {
     tags = document.getElementsByTagName(tts_content_tag_name)
-    var i = 0;
-    text = tags[i].innerText;
-    for(i=1; i<tags.length; i++){
-      text += tags[i].innerText;
-    };
-    matches = text.match(/.{1,30000}/mg);
-    matches.forEach(function(e){
-      var t = new SpeechSynthesisUtterance(e);
-      t.lang = tts_lang;
-      t.pitch = tts_pitch;
-      t.rate = tts_rate;
-      msg = t;
-      msg.onstart = function (event) {
-        //console.log("started");
-        emoji = String.fromCharCode(9199);
-        document.getElementById('tts').innerHTML = '  ' + emoji;
+    i = 0;
+    for (var j = 0 ; j < tags.length ; j++){
+      utterance = new SpeechSynthesisUtterance(tags[j].innerText);
 
-      };
-      msg.onend = function(event) {
-        //console.log('Finished in ' + event.elapsedTime + ' seconds.');
-        emoji = String.fromCharCode(9209)'
-        document.getElementById('tts').innerHTML = '  ' + emoji;
-      };
-      speechSynthesis.speak(t);
-    });
-  emoji = String.fromCharCode(9199);
-  document.getElementById('tts').innerHTML = '  ' + emoji;
-  document.getElementById('tts').removeEventListener('click', speak);
-  document.getElementById('tts').addEventListener('click', p);
-}
+      utterance.lang = tts_lang;
+      utterance.pitch = tts_pitch;
+      utterance.rate = tts_rate;
+
+      utterance.onstart = fn_onstart;
+      utterance.onend = fn_onend;
+
+      utterances.push(utterance);
+
+      speechSynthesis.speak(utterance);
+    }
+    document.getElementById('tts').innerHTML =  '  ' + emojiPlayPaused;
+    document.getElementById('tts').removeEventListener('click', speak);
+    document.getElementById('tts').addEventListener('click', p);
+  }
 
 document.addEventListener("DOMContentLoaded", tts);
+
 '''
-        basename = "tts."+tts_lang+".js"
+        baseFileName = "tts."+tts_lang+".js"
         uid = "tts."+tts_lang
         mime = "text/javascript"
-        bk.addfile(uid, basename, jsdata, mime)
+        bk.addfile(uid, baseFileName, jsdata, mime)
     return 0
 
 
